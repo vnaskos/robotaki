@@ -403,11 +403,11 @@ public class RobotMouse extends javax.swing.JFrame {
     }//GEN-LAST:event_endEventButtonActionPerformed
 
     private void upButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upButtonActionPerformed
-        actionsList.move(-1);
+        actionsList.moveUp();
     }//GEN-LAST:event_upButtonActionPerformed
 
     private void downButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downButtonActionPerformed
-        actionsList.move(1);
+        actionsList.moveDown();
     }//GEN-LAST:event_downButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed

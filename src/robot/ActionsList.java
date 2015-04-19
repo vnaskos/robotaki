@@ -55,17 +55,29 @@ public class ActionsList extends JList<Action> implements ActionObserver {
         }
     }
     
-    public void move(int direction) {
+    public void moveUp() {
         int[] selected = this.getSelectedIndices();
-        for (int i = selected.length - 1; i >= 0; i--) {
-            int indexOfSelected = selected[i];
-            swapElements(indexOfSelected, indexOfSelected + 1 * direction);
-            indexOfSelected = indexOfSelected + 1 * direction;
-            this.setSelectedIndex(indexOfSelected);
-            this.updateUI();
-            selected[i] += 1 * direction;
+        for (int i = 0; i < selected.length; i++) {
+            moveElement(selected[i], -1);
+            selected[i]--;
         }
         this.setSelectedIndices(selected);
+    }
+
+    public void moveDown() {
+        int[] selected = this.getSelectedIndices();
+        for (int i = selected.length - 1; i >= 0; i--) {
+            moveElement(selected[i], 1);
+            selected[i]++;
+        }
+        this.setSelectedIndices(selected);
+    }
+
+    private void moveElement(int indexOfSelected, int direction) {
+        swapElements(indexOfSelected, indexOfSelected + 1 * direction);
+        indexOfSelected = indexOfSelected + 1 * direction;
+        this.setSelectedIndex(indexOfSelected);
+        this.updateUI();
     }
 
     private void swapElements(int pos1, int pos2) {
