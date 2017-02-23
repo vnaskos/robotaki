@@ -33,6 +33,8 @@ import java.util.logging.Logger;
  */
 public class OpenHandler {
     
+    private static final Logger LOGGER = Logger
+            .getLogger(OpenHandler.class.getName());
     protected ActionObserver observer;
 
     public OpenHandler(ActionObserver observer) {
@@ -46,7 +48,7 @@ public class OpenHandler {
         try (BufferedReader in = getReader(filepath)) {
             parseActions(in);
         } catch (IOException ex) {
-            Logger.getLogger(OpenHandler.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -63,30 +65,28 @@ public class OpenHandler {
         return in;
     }
     
-    protected void parseActions(BufferedReader in) throws IOException {
+    protected void parseActions(BufferedReader in)
+            throws IOException {
         String encodedAction;
         
         while ((encodedAction = in.readLine()) != null) {
             try {
-                Action action = parseAction(encodedAction);
+                Action action = parseSingleAction(encodedAction);
                 observer.addAction(action);
             } catch (InvalidActionException ex) {
-                Logger.getLogger(OpenHandler.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
     }
     
-    protected Action parseAction(String encodedAction)
+    protected Action parseSingleAction(String encodedAction)
             throws InvalidActionException {
         validateEncodedAction(encodedAction);
 
         ActionFactory actionFactory = new ActionFactory();
         Action action = actionFactory.getAction(encodedAction);
 
-        if(action == null) {
-            throw new InvalidActionException(
-                    "Can't read the encoded action " + encodedAction);
-        }
+        validateAction(action, encodedAction);
 
         return action;
     }
@@ -96,6 +96,14 @@ public class OpenHandler {
         if (encodedAction == null || encodedAction.trim().isEmpty()) {
             throw new InvalidActionException(
                     "Invalid encoded action");
+        }
+    }
+    
+    private void validateAction(Action action, String encodedAction)
+            throws InvalidActionException {
+        if(action == null) {
+            throw new InvalidActionException(
+                    "Can't read the encoded action " + encodedAction);
         }
     }
 }

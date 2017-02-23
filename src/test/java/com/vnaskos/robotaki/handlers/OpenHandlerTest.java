@@ -42,26 +42,26 @@ public class OpenHandlerTest {
     @Test(expected = InvalidActionException.class)
     public void parseAction_InvalidEncodedAction_ShouldThrow()
             throws InvalidActionException {
-        openHandler.parseAction(INVALID_ENCODED_ACTION);
+        openHandler.parseSingleAction(INVALID_ENCODED_ACTION);
     }
     
     @Test(expected = InvalidActionException.class)
     public void parseAction_EmptyEncodedAction_ShouldThrow()
             throws InvalidActionException {
-        openHandler.parseAction(INVALID_EMPTY_ENCODED_ACTION);
+        openHandler.parseSingleAction(INVALID_EMPTY_ENCODED_ACTION);
     }
     
     @Test(expected = InvalidActionException.class)
     public void parseAction_UnknownEncodedAction_ShouldThrow()
             throws InvalidActionException {
-        openHandler.parseAction(UNKNOWN_ENCODED_ACTION);
+        openHandler.parseSingleAction(UNKNOWN_ENCODED_ACTION);
     }
     
     @Test
     public void parseAction_ReadEncoded5MsDelay_Return5MsDelayAction()
             throws InvalidActionException {
         DelayAction delayAction = (DelayAction) openHandler
-                .parseAction(FIVE_MILLISECONDS_ENCODED_DELAY);
+                .parseSingleAction(FIVE_MILLISECONDS_ENCODED_DELAY);
         assertEquals(FIVE_MILLISECONDS, delayAction.getDelayMs());
     }
     
