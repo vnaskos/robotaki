@@ -1,3 +1,19 @@
+/*
+ * This file is part of Robotaki.
+ *
+ * Robotaki is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Foobar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.vnaskos.robotaki.handlers;
 
 import com.vnaskos.robotaki.actions.Action;
@@ -7,8 +23,11 @@ import com.vnaskos.robotaki.actions.MouseClick;
 import com.vnaskos.robotaki.actions.MoveTo;
 import com.vnaskos.robotaki.actions.MoveXY;
 import com.vnaskos.robotaki.actions.Repeat;
+import com.vnaskos.robotaki.exceptions.InvalidActionException;
 import com.vnaskos.robotaki.ui.ActionObserver;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -20,47 +39,68 @@ import java.util.logging.Logger;
  */
 public class OpenHandler {
     
-    ActionObserver observer;
-    String filepath;
+    protected ActionObserver observer;
 
-    protected OpenHandler(ActionObserver observer, String filepath) {
+    public OpenHandler(ActionObserver observer) {
         this.observer = observer;
-        this.filepath = filepath;
     }
     
-    public static void open(ActionObserver observer, String filepath) {
-        OpenHandler loadHandler = new OpenHandler(observer, filepath);
-        loadHandler.loadActions();
-    }
-    
-    private void loadActions() {
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new FileReader(filepath));
-            
-            while (in.ready()) {
-                String encodedAction = in.readLine();
-                addAction(encodedAction);
-            }
-            
+    public void open(String filepath)
+            throws FileNotFoundException {
+        validateFile(filepath);
+        
+        try (BufferedReader in = getReader(filepath)) {
+            parseActions(in);
         } catch (IOException ex) {
             Logger.getLogger(OpenHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }
+    }
+
+    protected void validateFile(String filepath)
+            throws FileNotFoundException {
+        if(!new File(filepath).exists()) {
+            throw new FileNotFoundException();
+        }
+    }
+
+    protected BufferedReader getReader(String filepath)
+            throws FileNotFoundException {
+        BufferedReader in = new BufferedReader(new FileReader(filepath));
+        return in;
+    }
+    
+    protected void parseActions(BufferedReader in) throws IOException {
+        String encodedAction;
+        
+        while ((encodedAction = in.readLine()) != null) {
             try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ex) {
+                Action action = parseAction(encodedAction);
+                observer.addAction(action);
+            } catch (InvalidActionException ex) {
                 Logger.getLogger(OpenHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
     
-    private void addAction(String encodedAction) {
-        Action action = getIdentifiedAction(encodedAction);  
-        
-        if (action != null) {
-            observer.addAction(action);
+    protected Action parseAction(String encodedAction)
+            throws InvalidActionException {
+        validateEncodedAction(encodedAction);
+
+        Action action = getIdentifiedAction(encodedAction);
+
+        if(action == null) {
+            throw new InvalidActionException(
+                    "Can't read the encoded action " + encodedAction);
+        }
+
+        return action;
+    }
+    
+    private void validateEncodedAction(String encodedAction)
+            throws InvalidActionException{
+        if (encodedAction == null || encodedAction.trim().isEmpty()) {
+            throw new InvalidActionException(
+                    "Invalid encoded action");
         }
     }
     

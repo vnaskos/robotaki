@@ -27,6 +27,7 @@ import com.vnaskos.robotaki.ui.ListView;
 import com.vnaskos.robotaki.ui.ActionsTab;
 import com.vnaskos.robotaki.ui.FileTab;
 import java.awt.Dimension;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -131,7 +132,12 @@ public class Robotaki extends JFrame {
 
         String file = fileChooser.getSelectedFile().getPath();
 
-        OpenHandler.open(listObserver, file);
+        try {
+            OpenHandler openHandler = new OpenHandler(listObserver);
+            openHandler.open(file);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Robotaki.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void start() {
