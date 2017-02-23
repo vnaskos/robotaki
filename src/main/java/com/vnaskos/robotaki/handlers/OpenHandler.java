@@ -17,12 +17,6 @@
 package com.vnaskos.robotaki.handlers;
 
 import com.vnaskos.robotaki.actions.Action;
-import com.vnaskos.robotaki.actions.DelayAction;
-import com.vnaskos.robotaki.actions.End;
-import com.vnaskos.robotaki.actions.MouseClick;
-import com.vnaskos.robotaki.actions.MoveTo;
-import com.vnaskos.robotaki.actions.MoveXY;
-import com.vnaskos.robotaki.actions.Repeat;
 import com.vnaskos.robotaki.exceptions.InvalidActionException;
 import com.vnaskos.robotaki.ui.ActionObserver;
 import java.io.BufferedReader;
@@ -86,7 +80,8 @@ public class OpenHandler {
             throws InvalidActionException {
         validateEncodedAction(encodedAction);
 
-        Action action = getIdentifiedAction(encodedAction);
+        ActionFactory actionFactory = new ActionFactory();
+        Action action = actionFactory.getAction(encodedAction);
 
         if(action == null) {
             throw new InvalidActionException(
@@ -102,33 +97,5 @@ public class OpenHandler {
             throw new InvalidActionException(
                     "Invalid encoded action");
         }
-    }
-    
-    private Action getIdentifiedAction(String encodedAction) {
-        int id = Integer.parseInt(encodedAction.split(":")[0]);
-        Action action = null;
-        
-        switch (id) {
-            case 1:
-                action = new MoveTo(encodedAction);
-                break;
-            case 2:
-                action = new MoveXY(encodedAction);
-                break;
-            case 3:
-                action = new MouseClick(encodedAction);
-                break;
-            case 4:
-                action = new DelayAction(encodedAction);
-                break;
-            case 5:
-                action = new Repeat(encodedAction);
-                break;
-            case 6:
-                action = new End(encodedAction);
-                break;
-        }
-        
-        return action;
     }
 }
