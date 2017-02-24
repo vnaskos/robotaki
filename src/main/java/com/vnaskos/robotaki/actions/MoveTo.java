@@ -69,7 +69,7 @@ public class MoveTo implements Action {
     }
 
     @Override
-    public void run(Robot robot) {
+    public void execute(Robot robot) {
         robot.mouseMove(x, y);
     }
     

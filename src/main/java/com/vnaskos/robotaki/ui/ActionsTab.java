@@ -18,7 +18,7 @@ package com.vnaskos.robotaki.ui;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.vnaskos.robotaki.actions.End;
+import com.vnaskos.robotaki.actions.EndAction;
 import com.vnaskos.robotaki.ui.dialogs.DelayDialog;
 import com.vnaskos.robotaki.ui.dialogs.GoToDialog;
 import com.vnaskos.robotaki.ui.dialogs.MouseClickDialog;
@@ -96,7 +96,7 @@ public class ActionsTab extends JPanel {
         
         endButton = new JButton("End");
         endButton.addActionListener((ActionEvent e) -> {
-            End end = new End();
+            EndAction end = new EndAction();
             list.addAction(end);
         });
         

@@ -1,6 +1,6 @@
 package com.vnaskos.robotaki.ui.dialogs;
 
-import com.vnaskos.robotaki.actions.Repeat;
+import com.vnaskos.robotaki.actions.RepeatAction;
 import com.vnaskos.robotaki.ui.ActionObserver;
 
 /**
@@ -126,7 +126,7 @@ public class RepeatDialog extends javax.swing.JFrame {
     private void okListener() {
         int times = Integer.parseInt(timesSpinner.getValue().toString());
         
-        Repeat action = new Repeat(times);
+        RepeatAction action = new RepeatAction(times);
         observer.addAction(action);
         
         dispose();

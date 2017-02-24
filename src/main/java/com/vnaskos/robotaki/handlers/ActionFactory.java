@@ -18,11 +18,11 @@ package com.vnaskos.robotaki.handlers;
 
 import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.actions.DelayAction;
-import com.vnaskos.robotaki.actions.End;
+import com.vnaskos.robotaki.actions.EndAction;
 import com.vnaskos.robotaki.actions.MouseClick;
 import com.vnaskos.robotaki.actions.MoveTo;
 import com.vnaskos.robotaki.actions.MoveXY;
-import com.vnaskos.robotaki.actions.Repeat;
+import com.vnaskos.robotaki.actions.RepeatAction;
 import com.vnaskos.robotaki.exceptions.InvalidActionException;
 
 /**
@@ -49,11 +49,11 @@ public class ActionFactory {
             case DelayAction.ID:
                 action = new DelayAction(encodedAction);
                 break;
-            case Repeat.ID:
-                action = new Repeat(encodedAction);
+            case RepeatAction.ID:
+                action = new RepeatAction(encodedAction);
                 break;
-            case End.ID:
-                action = new End(encodedAction);
+            case EndAction.ID:
+                action = new EndAction(encodedAction);
                 break;
             default:
                 throw new InvalidActionException(

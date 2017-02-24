@@ -23,13 +23,15 @@ import java.awt.Robot;
  *
  * @author Vasilis Naskos
  */
-public class End implements Action {
+public class EndAction implements Action {
 
     public static final int ID = 6;
     
-    public End() {}
+    protected RepeatAction repeat;
+    
+    public EndAction() {}
 
-    public End(String encoded) {
+    public EndAction(String encoded) {
         parse(encoded);
     }
     
@@ -43,7 +45,17 @@ public class End implements Action {
     }
 
     @Override
-    public void run(Robot robot) {}
+    public void execute(Robot robot) {}
+    
+    public int getNextIndex(int nextAction) {
+        return repeat.getCounter() == 0
+                ? nextAction + 1
+                : repeat.getStartIndex();
+    }
+
+    public void setRepeat(RepeatAction repeat) {
+        this.repeat = repeat;
+    }
 
     @Override
     public String toString() {

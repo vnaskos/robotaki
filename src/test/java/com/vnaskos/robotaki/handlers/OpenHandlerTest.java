@@ -2,7 +2,7 @@ package com.vnaskos.robotaki.handlers;
 
 import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.actions.DelayAction;
-import com.vnaskos.robotaki.actions.Repeat;
+import com.vnaskos.robotaki.actions.RepeatAction;
 import com.vnaskos.robotaki.exceptions.InvalidActionException;
 import com.vnaskos.robotaki.ui.ActionObserver;
 import java.io.BufferedReader;
@@ -75,7 +75,7 @@ public class OpenHandlerTest {
         
         openHandler.parseActions(br);
         
-        assertTrue(fakeActionObserver.getLastAction() instanceof Repeat);
+        assertTrue(fakeActionObserver.getLastAction() instanceof RepeatAction);
     }
     
     @Test
@@ -102,7 +102,7 @@ public class OpenHandlerTest {
         openHandler = new TestableOpenHadler(fakeActionObserver);
         openHandler.open("");
         
-        assertTrue(fakeActionObserver.getLastAction() instanceof Repeat);
+        assertTrue(fakeActionObserver.getLastAction() instanceof RepeatAction);
     }
     
     private class TestableOpenHadler extends OpenHandler {

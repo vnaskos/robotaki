@@ -23,7 +23,7 @@ import java.awt.Robot;
  *
  * @author Vasilis Naskos
  */
-public class Repeat implements Action {
+public class RepeatAction implements Action {
     
     public static final int ID = 5;
     
@@ -31,11 +31,11 @@ public class Repeat implements Action {
     private int counter;
     private int startLine;
 
-    public Repeat(int times) {
+    public RepeatAction(int times) {
         this.times = times;
     }
 
-    public Repeat(String encoded) {
+    public RepeatAction(String encoded) {
         parse(encoded);
     }
 
@@ -59,11 +59,11 @@ public class Repeat implements Action {
         counter--;
     }
     
-    public int getStartLine() {
+    public int getStartIndex() {
         return startLine;
     }
 
-    public void setStartLine(int startLine) {
+    public void setStartIndex(int startLine) {
         this.startLine = startLine;
     }
 
@@ -81,7 +81,9 @@ public class Repeat implements Action {
     }
 
     @Override
-    public void run(Robot robot) {}
+    public void execute(Robot robot) {
+        decreaseCounter();
+    }
 
     @Override
     public String toString() {

@@ -94,7 +94,7 @@ public class MoveXY implements Action {
     }
 
     @Override
-    public void run(Robot robot) {
+    public void execute(Robot robot) {
         Point point = MouseInfo.getPointerInfo().getLocation();
         int x = point.x;
         int y = point.y;

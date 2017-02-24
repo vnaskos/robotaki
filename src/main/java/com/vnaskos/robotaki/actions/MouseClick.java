@@ -56,7 +56,7 @@ public class MouseClick implements Action {
     }
 
     @Override
-    public void run(Robot robot) {
+    public void execute(Robot robot) {
         int btn = 0;
         
         switch(button.getButtonMap()) {

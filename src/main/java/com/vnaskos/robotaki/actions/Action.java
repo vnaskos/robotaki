@@ -27,6 +27,6 @@ public interface Action {
     
     public void parse(String encoded) throws InvalidActionException ;
     public String encode();
-    public void run(Robot robot);
+    public void execute(Robot robot);
     
 }

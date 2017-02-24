@@ -1,11 +1,28 @@
+/*
+ * This file is part of Robotaki.
+ *
+ * Robotaki is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Foobar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.vnaskos.robotaki.handlers;
 
 import com.vnaskos.robotaki.actions.Action;
-import com.vnaskos.robotaki.actions.End;
-import com.vnaskos.robotaki.actions.Repeat;
+import com.vnaskos.robotaki.actions.EndAction;
+import com.vnaskos.robotaki.actions.RepeatAction;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,82 +30,99 @@ import java.util.logging.Logger;
  *
  * @author Vasilis Naskos
  */
-public class RunHandler {
+public class RunHandler implements Runnable {
     
+    private static final Logger LOGGER = Logger
+            .getLogger(RunHandler.class.getName());
     private static RunHandler instance;
-    private final ArrayList<Action> actions;
-    private static boolean exitLoop;
+    
+    private final List<Action> actions;
+    
     private static boolean stop;
-
+    private int nextAction = 0;
+    
     protected RunHandler(ArrayList<Action> actions) {
         this.actions = actions;
-        exitLoop = false;
         stop = false;
     }
     
-    public static RunHandler getInstance(ArrayList<Action> actions) {
-        if (instance == null) {
-            instance = new RunHandler(actions);
-            return instance;
+    public static void start(ArrayList<Action> actions) {
+        if(instance != null) {
+            return;
         }
-        return null;
+        
+        new Thread(new RunHandler(actions)).start();
     }
     
-    private static void destroyInstance() {
-        instance = null;
-    }
-    
-    public void start() {
-        new Thread(() -> {
-            try {
-                startProcess();
-            } catch (AWTException ex) {
-                Logger.getLogger(RunHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }).start();        
-    }
-    
-    private void startProcess() throws AWTException {
-        Robot robot = new Robot();
-        ArrayList<Repeat> repeats = new ArrayList<>();
-         
-        for(int i=0; i<actions.size(); i++) {
-            Action a = actions.get(i);
+    @Override
+    public void run() {
+        Robot robot = getRobot();
+        
+        if(robot == null) {
+            return;
+        }
+        
+        constructRepeatEndPairsFromActions();
+        
+        while(nextAction < actions.size()) {
+            if(stop) { break; }
             
-            if(stop) {
-                break;
-            }
-            if(a instanceof Repeat) {
-                Repeat repeat = (Repeat) a;
-                repeat.setStartLine(i);
-                repeat.setCounter();
-                repeats.add(repeat);
-            }
-            if(!repeats.isEmpty() && a instanceof End) {
-                Repeat repeat = repeats.get(repeats.size()-1);
-                if(repeat.getCounter() != 0 && !exitLoop) {
-                    repeat.decreaseCounter();
-                    i = repeat.getStartLine();
-                } else {
-                    repeats.remove(repeats.size()-1);
-                    if(exitLoop) {
-                        exitLoop = false;
-                    }
-                }
-            }
-                
-            a.run(robot);
+            Action action = actions.get(nextAction);
+            action.execute(robot);
+            calculateNextIndex(action);
         }
         
         destroyInstance();
     }
     
-    public static void exitLoop() {
-        exitLoop = true;
+    protected Robot getRobot() {
+        try {
+            return new Robot();
+        } catch (AWTException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    protected void constructRepeatEndPairsFromActions() {
+        List<RepeatAction> repeats = new ArrayList();
+                
+        for(int i=0; i<actions.size(); i++) {
+            Action action = actions.get(i);
+            
+            if(action instanceof RepeatAction) {
+                repeats.add(0, initRepeat(action, i));
+            } else if(action instanceof EndAction) {
+                EndAction end = (EndAction) action;
+                end.setRepeat(repeats.get(0));
+                repeats.remove(0);
+            }
+        }
     }
 
+    protected RepeatAction initRepeat(Action action, int i) {
+        RepeatAction repeat = (RepeatAction) action;
+        repeat.setStartIndex(i);
+        repeat.setCounter();
+        
+        return repeat;
+    }
+    
+    protected void calculateNextIndex(Action action) {
+        if(action instanceof EndAction) {
+            EndAction end = (EndAction) action;
+            nextAction = end.getNextIndex(nextAction);
+        } else {
+            nextAction++;
+        }
+    }
+    
+    protected void destroyInstance() {
+        instance = null;
+    }
+    
     public static void stop() {
         stop = true;
-        exitLoop = true;
     }
+    
 }

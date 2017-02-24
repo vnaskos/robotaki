@@ -143,9 +143,6 @@ public class Robotaki extends JFrame {
     private void start() {
         ArrayList<Action> actions = listView.getActions();
 
-        RunHandler handler = RunHandler.getInstance(actions);
-        if (handler != null) {
-            handler.start();
-        }
+        RunHandler.start(actions);
     }
 }
