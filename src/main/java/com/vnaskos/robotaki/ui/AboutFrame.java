@@ -42,7 +42,7 @@ public class AboutFrame extends JFrame {
                 "$lcgap,f:p,10dlu,f:p:g,10dlu,f:p,$lcgap"));
         CellConstraints cc = new CellConstraints();
         
-        JLabel aboutLabel = new JLabel("Robotaki by vnaskos");
+        JLabel aboutLabel = new JLabel("Robotaki v1.0 by vnaskos");
         aboutLabel.setFont(new java.awt.Font("Ubuntu", 0, 18));
         add(aboutLabel, cc.xy(2, 2));
         
