@@ -1,3 +1,19 @@
+/*
+ * This file is part of Robotaki.
+ *
+ * Robotaki is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Foobar is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.vnaskos.robotaki.handlers;
 
 import com.vnaskos.robotaki.actions.Action;
@@ -14,16 +30,14 @@ import java.util.logging.Logger;
  */
 public class SaveHandler {
     
+    private static final Logger LOGGER = Logger
+            .getLogger(SaveHandler.class.getName());
     private final ArrayList<Action> actions;
     private final String filepath;
     
-    public SaveHandler(ArrayList<Action> actions, String filepath) {
+    protected SaveHandler(ArrayList<Action> actions, String filepath) {
         this.actions = actions;
         this.filepath = filepath;
-        
-        if (!filepath.endsWith(".rmc")) {
-            filepath += ".rmc";
-        }
     }
     
     public static void save(ArrayList<Action> actions, String filepath) {
@@ -33,7 +47,7 @@ public class SaveHandler {
         saveHandler.saveToFile(output);
     }
     
-    private String actionsToString() {
+    protected String actionsToString() {
         StringBuilder output = new StringBuilder();
 
         for (Action action : actions) {
@@ -45,22 +59,17 @@ public class SaveHandler {
     }
     
     private void saveToFile(String output) {
-        BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new FileWriter(filepath));
+        try(BufferedWriter bw = getWriter()) {
             bw.write(output);
-            bw.close();
         } catch (IOException ex) {
-            Logger.getLogger(SaveHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if(bw != null) {
-                    bw.close();
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(SaveHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            LOGGER.log(Level.SEVERE, null, ex);
         }
+    }
+
+    protected BufferedWriter getWriter()
+            throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
+        return bw;
     }
     
 }
