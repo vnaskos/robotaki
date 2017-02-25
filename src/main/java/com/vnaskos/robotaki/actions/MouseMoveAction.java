@@ -110,7 +110,7 @@ public class MouseMoveAction implements Action {
 
     @Override
     public String toString() {
-        return String.format("Move mouse %d times %d px %s (delay %d)",
+        return String.format("Move mouse %d times %d px %s (delay %dms)",
                 iterations, Math.abs(step),
                 direction.toString().toLowerCase(),
                 delay);

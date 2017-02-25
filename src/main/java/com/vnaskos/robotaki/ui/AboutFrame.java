@@ -52,9 +52,10 @@ public class AboutFrame extends JFrame {
                 + " and boring tasks. The program runs sequentially all given"
                 + " commands, which may include mouse and keyboard events."
                 + " Thus you have to use it with extreme caution."
-                + "\n\nProject's page:\nhttps://github.com/vnaskos/robotaki"
+                + "\n\nProject page:\nhttps://github.com/vnaskos/robotaki"
                 + "\n\nGNU General Public License 3.0"
-                + "\nhttp://www.gnu.org/licenses/gpl-3.0.html");
+                + "\nhttp://www.gnu.org/licenses/gpl-3.0.html"
+                + "\n\nUSE WITH EXTREME CAUTION!!!");
         add(new JScrollPane(aboutTextPane), cc.xyw(2, 4, 3));
         
         JButton okButton = new JButton("OK");

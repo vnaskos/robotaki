@@ -39,7 +39,6 @@ public class MouseClickDialog extends JDialog {
     private final ActionsListObserver list;
     
     private ComboBoxModel<Button> buttonComboModel;
-    private ComboBoxModel<String> stateComboModel;
     private JComboBox stateComboBox;
     private JButton okButton;
     
@@ -65,7 +64,7 @@ public class MouseClickDialog extends JDialog {
         
         add(new JLabel("State:"), cc.xy(2, 4));
         
-        stateComboModel = new DefaultComboBoxModel<>(
+        ComboBoxModel<String> stateComboModel = new DefaultComboBoxModel<>(
                 new String[] {
                     "press", "release"
                 });

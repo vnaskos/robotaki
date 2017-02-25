@@ -21,7 +21,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.EndAction;
 import com.vnaskos.robotaki.ui.dialogs.DelayDialog;
 import com.vnaskos.robotaki.ui.dialogs.MouseClickDialog;
-import com.vnaskos.robotaki.ui.dialogs.MouseMoveXYDialog;
+import com.vnaskos.robotaki.ui.dialogs.MouseMoveDialog;
 import com.vnaskos.robotaki.ui.dialogs.MousePositionDialog;
 import com.vnaskos.robotaki.ui.dialogs.RepeatDialog;
 import java.awt.event.ActionEvent;
@@ -42,7 +42,7 @@ public class ActionsTab extends JPanel {
     
     private final MouseClickDialog mouseClickDialog;
     private final MousePositionDialog goToDialog;
-    private final MouseMoveXYDialog moveXYDialog;
+    private final MouseMoveDialog moveXYDialog;
     private final DelayDialog delayDialog;
     private final RepeatDialog repeatDialog;
     
@@ -53,7 +53,7 @@ public class ActionsTab extends JPanel {
         
         goToDialog = new MousePositionDialog(list);
         mouseClickDialog = new MouseClickDialog(list);
-        moveXYDialog = new MouseMoveXYDialog(list);
+        moveXYDialog = new MouseMoveDialog(list);
         delayDialog = new DelayDialog(list);
         repeatDialog = new RepeatDialog(list);
     }
