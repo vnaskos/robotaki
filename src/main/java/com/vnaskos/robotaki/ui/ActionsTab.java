@@ -20,9 +20,9 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.EndAction;
 import com.vnaskos.robotaki.ui.dialogs.DelayDialog;
-import com.vnaskos.robotaki.ui.dialogs.GoToDialog;
 import com.vnaskos.robotaki.ui.dialogs.MouseClickDialog;
 import com.vnaskos.robotaki.ui.dialogs.MouseMoveXYDialog;
+import com.vnaskos.robotaki.ui.dialogs.MousePositionDialog;
 import com.vnaskos.robotaki.ui.dialogs.RepeatDialog;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
@@ -41,7 +41,7 @@ public class ActionsTab extends JPanel {
             endButton;
     
     private final MouseClickDialog mouseClickDialog;
-    private final GoToDialog goToDialog;
+    private final MousePositionDialog mousePositionDialog;
     private final MouseMoveXYDialog moveXYDialog;
     private final DelayDialog delayDialog;
     private final RepeatDialog repeatDialog;
@@ -51,7 +51,7 @@ public class ActionsTab extends JPanel {
         
         createUI();
         
-        goToDialog = new GoToDialog(list);
+        mousePositionDialog = new MousePositionDialog(list);
         mouseClickDialog = new MouseClickDialog(list);
         moveXYDialog = new MouseMoveXYDialog(list);
         delayDialog = new DelayDialog(list);
@@ -66,7 +66,7 @@ public class ActionsTab extends JPanel {
         
         goToButton = new JButton("Go To");
         goToButton.addActionListener((ActionEvent e) -> {
-            goToDialog.setVisible(true);
+            mousePositionDialog.setVisible(true);
         });
         add(goToButton, cc.xy(2, 1));
         

@@ -37,12 +37,11 @@ public class DelayDialog extends JDialog {
     
     private final ActionObserver list;
     
-    private JSpinner delaySpinner;
-    private JButton okButton, cancelButton;
+    private SpinnerNumberModel spinnerModel;
+    private JButton okButton;
 
     public DelayDialog(ActionObserver list) throws HeadlessException {
         this.list = list;
-        
         createUI();
     }
     
@@ -54,20 +53,17 @@ public class DelayDialog extends JDialog {
         
         add(new JLabel("Delay (ms):"), cc.xy(2, 2));
         
-        delaySpinner = new JSpinner(
-                new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+        spinnerModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+        JSpinner delaySpinner = new JSpinner(spinnerModel);
         add(delaySpinner, cc.xyw(4, 2, 3));
          
         okButton = new JButton("OK");
         okButton.addActionListener((ActionEvent e) -> {
-            DelayAction action = new DelayAction();
-            action.setDelayMs(Integer.parseInt(delaySpinner.getValue().toString()));
-            list.addAction(action);
-            dispose();
+            okButtonPressed();
         });
         add(okButton, cc.xy(5, 4));
         
-        cancelButton = new JButton("Cancel");
+        JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener((ActionEvent e) -> {
             dispose();
         });
@@ -78,6 +74,13 @@ public class DelayDialog extends JDialog {
         pack();
         setResizable(false);
         setLocationRelativeTo(null);
+    }
+
+    private void okButtonPressed() throws NumberFormatException {
+        DelayAction action = new DelayAction();
+        action.setDelayMs(spinnerModel.getNumber().intValue());
+        list.addAction(action);
+        dispose();
     }
     
 }
