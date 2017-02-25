@@ -43,7 +43,7 @@ import com.vnaskos.robotaki.ui.ActionsListObserver;
  */
 public class Robotaki extends JFrame {
 
-    private ActionsListObserver listObserver;
+    private final ActionsListObserver listObserver;
     
     private ListView listView;
     private JTabbedPane toolboxTabs;
@@ -53,6 +53,7 @@ public class Robotaki extends JFrame {
     private JFileChooser fileChooser;
     
     public Robotaki() {
+        this.listObserver = new DefaultActionsListObserver();
         createUI();
     }
     
@@ -65,13 +66,6 @@ public class Robotaki extends JFrame {
         
         listView = new ListView();
         add(listView, cc.xy(1, 1));
-        
-        this.listObserver = new ActionsListObserver() {
-            @Override
-            public void addAction(Action action) {
-                listView.addAction(action);
-            }
-        };
         
         toolboxTabs = new JTabbedPane();
         add(toolboxTabs, cc.xy(2, 1));
@@ -135,5 +129,13 @@ public class Robotaki extends JFrame {
     
     public void toggleAlwaysOnTop() {
         this.setAlwaysOnTop(!this.isAlwaysOnTop());
+    }
+
+    private class DefaultActionsListObserver implements ActionsListObserver {
+
+        @Override
+        public void addAction(Action action) {
+            listView.addAction(action);
+        }
     }
 }

@@ -40,7 +40,7 @@ public class DelayDialog extends JDialog {
     private SpinnerNumberModel spinnerModel;
     private JButton okButton;
 
-    public DelayDialog(ActionsListObserver list) throws HeadlessException {
+    public DelayDialog(ActionsListObserver list) {
         this.list = list;
         createUI();
     }

@@ -122,7 +122,8 @@ public class OpenHandlerTest {
                 Mockito.when(br.readLine()).thenReturn(
                         ENCODED_REPEAT, END_OF_FILE);
             } catch (IOException ex) {
-                Logger.getLogger(OpenHandlerTest.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OpenHandlerTest.class.getName())
+                        .log(Level.SEVERE, null, ex);
             }
             return br;
         }
