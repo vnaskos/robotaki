@@ -19,7 +19,6 @@ package com.vnaskos.robotaki.handlers;
 import com.vnaskos.robotaki.actions.ActionFactory;
 import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.exceptions.InvalidActionException;
-import com.vnaskos.robotaki.ui.ActionObserver;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,6 +26,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -36,9 +36,9 @@ public class OpenHandler {
     
     private static final Logger LOGGER = Logger
             .getLogger(OpenHandler.class.getName());
-    protected ActionObserver observer;
+    protected ActionsListObserver observer;
 
-    public OpenHandler(ActionObserver observer) {
+    public OpenHandler(ActionsListObserver observer) {
         this.observer = observer;
     }
     

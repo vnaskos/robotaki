@@ -34,24 +34,24 @@ import javax.swing.JPanel;
  */
 public class ActionsTab extends JPanel {
 
-    private final ActionObserver list;
+    private final ActionsListObserver list;
     
     private JButton goToButton, moveXYButton,
             mouseClickButton, delayBtn, repeatButton,
             endButton;
     
     private final MouseClickDialog mouseClickDialog;
-    private final MousePositionDialog mousePositionDialog;
+    private final MousePositionDialog goToDialog;
     private final MouseMoveXYDialog moveXYDialog;
     private final DelayDialog delayDialog;
     private final RepeatDialog repeatDialog;
     
-    public ActionsTab(ActionObserver list) {
+    public ActionsTab(ActionsListObserver list) {
         this.list = list;
         
         createUI();
         
-        mousePositionDialog = new MousePositionDialog(list);
+        goToDialog = new MousePositionDialog(list);
         mouseClickDialog = new MouseClickDialog(list);
         moveXYDialog = new MouseMoveXYDialog(list);
         delayDialog = new DelayDialog(list);
@@ -66,7 +66,7 @@ public class ActionsTab extends JPanel {
         
         goToButton = new JButton("Go To");
         goToButton.addActionListener((ActionEvent e) -> {
-            mousePositionDialog.setVisible(true);
+            goToDialog.setVisible(true);
         });
         add(goToButton, cc.xy(2, 1));
         

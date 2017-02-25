@@ -5,7 +5,6 @@ import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.actions.DelayAction;
 import com.vnaskos.robotaki.actions.RepeatAction;
 import com.vnaskos.robotaki.exceptions.InvalidActionException;
-import com.vnaskos.robotaki.ui.ActionObserver;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -110,7 +110,7 @@ public class OpenHandlerTest {
         
         String encodedActions;
         
-        public TestableOpenHadler(ActionObserver observer) {
+        public TestableOpenHadler(ActionsListObserver observer) {
             super(observer);
         }
 
@@ -133,24 +133,12 @@ public class OpenHandlerTest {
         
     }
     
-    private class FakeActionObserver implements ActionObserver {
+    private class FakeActionObserver implements ActionsListObserver {
         Action lastAction;
 
         @Override
         public void addAction(Action action) {
             lastAction = action;
-        }
-
-        @Override
-        public void triggerSave() {
-        }
-
-        @Override
-        public void triggerOpen() {
-        }
-
-        @Override
-        public void triggerStart() {
         }
 
         public Action getLastAction() {

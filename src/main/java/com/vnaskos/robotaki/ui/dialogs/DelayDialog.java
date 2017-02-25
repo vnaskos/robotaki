@@ -19,7 +19,6 @@ package com.vnaskos.robotaki.ui.dialogs;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.DelayAction;
-import com.vnaskos.robotaki.ui.ActionObserver;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -28,6 +27,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -35,12 +35,12 @@ import javax.swing.SpinnerNumberModel;
  */
 public class DelayDialog extends JDialog {
     
-    private final ActionObserver list;
+    private final ActionsListObserver list;
     
     private SpinnerNumberModel spinnerModel;
     private JButton okButton;
 
-    public DelayDialog(ActionObserver list) throws HeadlessException {
+    public DelayDialog(ActionsListObserver list) throws HeadlessException {
         this.list = list;
         createUI();
     }

@@ -18,6 +18,8 @@ package com.vnaskos.robotaki.ui;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import com.vnaskos.robotaki.Robotaki;
+import com.vnaskos.robotaki.handlers.RunHandler;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,13 +31,13 @@ import javax.swing.JToggleButton;
  */
 public class FileTab extends JPanel {
     
-    private final ActionObserver list;
+    private final Robotaki robotaki;
     private JButton saveButton, openButton,
             startButton, stopButton, aboutButton;
     private JToggleButton alwaysOnTopByButton;
 
-    public FileTab(ActionObserver list) {
-        this.list = list;
+    public FileTab(Robotaki robotaki) {
+        this.robotaki = robotaki;
         
         createUI();
     }
@@ -48,26 +50,32 @@ public class FileTab extends JPanel {
         
         saveButton = new JButton("Save");
         saveButton.addActionListener((ActionEvent e) -> {
-            list.triggerSave();
+            robotaki.save();
         });
         add(saveButton, cc.xy(2, 1));
         
         openButton = new JButton("Open");
         openButton.addActionListener((ActionEvent e) -> {
-            list.triggerOpen();
+            robotaki.open();
         });
         add(openButton, cc.xy(2, 2));
         
         startButton = new JButton("Start");
         startButton.addActionListener((ActionEvent e) -> {
-            list.triggerStart();
+            robotaki.start();
         });
         add(startButton, cc.xy(2, 3));
         
         stopButton = new JButton("Stop");
+        stopButton.addActionListener((e) -> {
+            RunHandler.stop();
+        });
         add(stopButton, cc.xy(2, 4));
         
         alwaysOnTopByButton = new JToggleButton("On Top");
+        alwaysOnTopByButton.addActionListener((e) -> {
+            robotaki.toggleAlwaysOnTop();
+        });
         add(alwaysOnTopByButton, cc.xy(2, 5));
         
         aboutButton = new JButton("About");

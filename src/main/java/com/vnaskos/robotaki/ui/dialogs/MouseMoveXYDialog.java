@@ -1,8 +1,8 @@
 package com.vnaskos.robotaki.ui.dialogs;
 
 import com.vnaskos.robotaki.actions.MouseMoveAction;
-import com.vnaskos.robotaki.ui.ActionObserver;
 import com.vnaskos.robotaki.utils.MouseDirection;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -10,14 +10,14 @@ import com.vnaskos.robotaki.utils.MouseDirection;
  */
 public class MouseMoveXYDialog extends javax.swing.JFrame {
     
-    ActionObserver observer;
+    ActionsListObserver observer;
     
     protected MouseMoveXYDialog() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
     
-    public MouseMoveXYDialog(ActionObserver observer) {
+    public MouseMoveXYDialog(ActionsListObserver observer) {
         this();
         this.observer = observer;
     }

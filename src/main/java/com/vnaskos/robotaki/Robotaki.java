@@ -22,7 +22,6 @@ import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.handlers.OpenHandler;
 import com.vnaskos.robotaki.handlers.RunHandler;
 import com.vnaskos.robotaki.handlers.SaveHandler;
-import com.vnaskos.robotaki.ui.ActionObserver;
 import com.vnaskos.robotaki.ui.ListView;
 import com.vnaskos.robotaki.ui.ActionsTab;
 import com.vnaskos.robotaki.ui.FileTab;
@@ -36,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -43,7 +43,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Robotaki extends JFrame {
 
-    private ActionObserver listObserver;
+    private ActionsListObserver listObserver;
     
     private ListView listView;
     private JTabbedPane toolboxTabs;
@@ -66,25 +66,10 @@ public class Robotaki extends JFrame {
         listView = new ListView();
         add(listView, cc.xy(1, 1));
         
-        this.listObserver = new ActionObserver() {
+        this.listObserver = new ActionsListObserver() {
             @Override
             public void addAction(Action action) {
                 listView.addAction(action);
-            }
-
-            @Override
-            public void triggerSave() {
-                save();
-            }
-
-            @Override
-            public void triggerOpen() {
-                open();
-            }
-
-            @Override
-            public void triggerStart() {
-                start();
             }
         };
         
@@ -93,7 +78,7 @@ public class Robotaki extends JFrame {
         
         toolboxView = new ActionsTab(listObserver);
         toolboxTabs.addTab("Actions", toolboxView);
-        fileTab = new FileTab(listObserver);
+        fileTab = new FileTab(this);
         toolboxTabs.add("File", fileTab);
         
         setMinimumSize(new Dimension(500, 200));
@@ -116,7 +101,7 @@ public class Robotaki extends JFrame {
         robotaki.setVisible(true);
     }
     
-    private void save() {
+    public void save() {
         if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
             return;
         }
@@ -127,7 +112,7 @@ public class Robotaki extends JFrame {
         saveHandler.save();
     }
 
-    private void open() {
+    public void open() {
         if (fileChooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
             return;
         }
@@ -142,9 +127,13 @@ public class Robotaki extends JFrame {
         }
     }
 
-    private void start() {
+    public void start() {
         ArrayList<Action> actions = listView.getActions();
 
         RunHandler.start(actions);
+    }
+    
+    public void toggleAlwaysOnTop() {
+        this.setAlwaysOnTop(!this.isAlwaysOnTop());
     }
 }

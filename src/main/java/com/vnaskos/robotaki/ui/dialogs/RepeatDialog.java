@@ -1,7 +1,7 @@
 package com.vnaskos.robotaki.ui.dialogs;
 
 import com.vnaskos.robotaki.actions.RepeatAction;
-import com.vnaskos.robotaki.ui.ActionObserver;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -9,14 +9,14 @@ import com.vnaskos.robotaki.ui.ActionObserver;
  */
 public class RepeatDialog extends javax.swing.JFrame {
     
-    ActionObserver observer;
+    ActionsListObserver observer;
     
     protected RepeatDialog() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
     
-    public RepeatDialog(ActionObserver observer) {
+    public RepeatDialog(ActionsListObserver observer) {
         this();
         this.observer = observer;
     }

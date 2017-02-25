@@ -22,11 +22,8 @@ import com.vnaskos.robotaki.actions.Action;
  *
  * @author Vasilis Naskos
  */
-public interface ActionObserver {
+public interface ActionsListObserver {
     
     public void addAction(Action action);
-    public void triggerSave();
-    public void triggerOpen();
-    public void triggerStart();
     
 }

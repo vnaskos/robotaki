@@ -19,7 +19,6 @@ package com.vnaskos.robotaki.ui.dialogs;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.MousePositionAction;
-import com.vnaskos.robotaki.ui.ActionObserver;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -27,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -34,12 +34,12 @@ import javax.swing.SpinnerNumberModel;
  */
 public class MousePositionDialog extends JDialog {
 
-    private final ActionObserver list;
+    private final ActionsListObserver list;
     
     private SpinnerNumberModel xSpinnerModel, ySpinnerModel;
     private JButton okButton;
     
-    public MousePositionDialog(ActionObserver list) {
+    public MousePositionDialog(ActionsListObserver list) {
         this.list = list;
         createUI();
     }

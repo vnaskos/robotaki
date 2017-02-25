@@ -1,8 +1,8 @@
 package com.vnaskos.robotaki.ui.dialogs;
 
 import com.vnaskos.robotaki.actions.MouseClickAction;
-import com.vnaskos.robotaki.ui.ActionObserver;
 import com.vnaskos.robotaki.utils.Button;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -10,14 +10,14 @@ import com.vnaskos.robotaki.utils.Button;
  */
 public class MouseClickDialog extends javax.swing.JFrame {
 
-    ActionObserver observer;
+    ActionsListObserver observer;
     
     protected MouseClickDialog() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
     
-    public MouseClickDialog(ActionObserver observer) {
+    public MouseClickDialog(ActionsListObserver observer) {
         this();
         this.observer = observer;
     }
