@@ -21,7 +21,31 @@ package com.vnaskos.robotaki.utils;
  *
  * @author Vasilis Naskos
  */
-public enum ButtonMap {
-    LEFT_CLICK,
-    RIGHT_CLICK
+public class MouseDirection {
+    
+    public enum Value {
+        UP, DOWN, LEFT, RIGHT
+    }
+    
+    private final Value value;
+    
+    public MouseDirection(Value value) {
+        this.value = value;
+    }
+    
+    public static MouseDirection parseDirection(String str) {
+        Value dir = Value.valueOf(str);
+
+        return new MouseDirection(dir);
+    }
+
+    public boolean isUp() { return value == Value.UP; }
+    public boolean isDown() { return value == Value.DOWN; }
+    public boolean isLeft() { return value == Value.LEFT; }
+    public boolean isRight() { return value == Value.RIGHT; }
+    
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }

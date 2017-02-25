@@ -16,13 +16,6 @@
  */
 package com.vnaskos.robotaki.actions;
 
-import com.vnaskos.robotaki.actions.Action;
-import com.vnaskos.robotaki.actions.DelayAction;
-import com.vnaskos.robotaki.actions.EndAction;
-import com.vnaskos.robotaki.actions.MouseClick;
-import com.vnaskos.robotaki.actions.MoveTo;
-import com.vnaskos.robotaki.actions.MoveXY;
-import com.vnaskos.robotaki.actions.RepeatAction;
 import com.vnaskos.robotaki.exceptions.InvalidActionException;
 
 /**
@@ -37,22 +30,22 @@ public class ActionFactory {
         Action action = null;
         
         switch (id) {
-            case MoveTo.ID:
-                action = new MoveTo(encodedAction);
+            case ActionType.MOUSE_POSITION:
+                action = new MousePositionAction(encodedAction);
                 break;
-            case MoveXY.ID:
-                action = new MoveXY(encodedAction);
+            case ActionType.MOUSE_MOVE:
+                action = new MouseMoveAction(encodedAction);
                 break;
-            case MouseClick.ID:
-                action = new MouseClick(encodedAction);
+            case ActionType.MOUSE_CLICK:
+                action = new MouseClickAction(encodedAction);
                 break;
-            case DelayAction.ID:
+            case ActionType.DELAY:
                 action = new DelayAction(encodedAction);
                 break;
-            case RepeatAction.ID:
+            case ActionType.REPEAT:
                 action = new RepeatAction(encodedAction);
                 break;
-            case EndAction.ID:
+            case ActionType.END:
                 action = new EndAction(encodedAction);
                 break;
             default:

@@ -14,32 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.vnaskos.robotaki.utils;
+
+import java.awt.event.InputEvent;
 
 /**
  *
  * @author Vasilis Naskos
  */
-public class Button {
-    private final ButtonMap map;
+public enum Button {
+    LEFT_CLICK(InputEvent.BUTTON1_MASK),
+    RIGHT_CLICK(InputEvent.BUTTON3_MASK);
     
-    public Button(ButtonMap map) {
-        this.map = map;
-    }
-    
-    public static Button parseButton(String str) {
-        ButtonMap btn = ButtonMap.valueOf(str);
-        
-        return new Button(btn);
-    }
+    public int name;
 
-    public ButtonMap getButtonMap() {
-        return map;
+    private Button(int name) {
+        this.name = name;
     }
     
-    @Override
-    public String toString() {
-        return map.toString();
+    public static Button getByName(String name) {
+        return Button.valueOf(name);
     }
 }

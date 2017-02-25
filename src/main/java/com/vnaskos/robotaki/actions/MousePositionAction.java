@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.vnaskos.robotaki.actions;
 
 import java.awt.Robot;
@@ -23,18 +22,16 @@ import java.awt.Robot;
  *
  * @author Vasilis Naskos
  */
-public class MoveTo implements Action {
-    
-    public static final int ID = 1;
+public class MousePositionAction implements Action {
     
     private int x, y;
 
-    public MoveTo(int x, int y) {
+    public MousePositionAction(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public MoveTo(String encoded) {
+    public MousePositionAction(String encoded) {
         parse(encoded);
     }
 
@@ -64,8 +61,10 @@ public class MoveTo implements Action {
     
     @Override
     public String encode() {
-        String encoded = ID+":"+x+":"+y;
-        return encoded;
+        return String.join(":", 
+                Integer.toString(ActionType.MOUSE_POSITION),
+                Integer.toString(x),
+                Integer.toString(y));
     }
 
     @Override
@@ -75,7 +74,6 @@ public class MoveTo implements Action {
     
     @Override
     public String toString() {
-        String action = "Move mouse to (" + x + "," + y + ")";
-        return action;
+        return String.format("Move mouse to (%d,%d)", x, y);
     }
 }

@@ -25,9 +25,9 @@ public class OpenHandlerTest {
     private static final String INVALID_ENCODED_ACTION = null;
     private static final String INVALID_EMPTY_ENCODED_ACTION = "";
     private static final String UNKNOWN_ENCODED_ACTION = "-1";
-    private static final String FIVE_MILLISECONDS_ENCODED_DELAY = ActionType.DELAY.value + ":5";
+    private static final String FIVE_MILLISECONDS_ENCODED_DELAY = ActionType.DELAY + ":5";
     private static final int FIVE_MILLISECONDS = 5;
-    private static final String ENCODED_REPEAT = ActionType.REPEAT.value + ":3";
+    private static final String ENCODED_REPEAT = ActionType.REPEAT + ":3";
     private static final String END_OF_FILE = null;
     private static final String NON_EXISTING_FILEPATH = "";
     

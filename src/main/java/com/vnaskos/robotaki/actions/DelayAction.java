@@ -28,11 +28,9 @@ import java.util.logging.Logger;
  */
 public class DelayAction implements Action {
     
-    public static final int ID = 4;
-    
-    /**
-     * Delay is stored in milliseconds
-     */
+    private static final Logger LOGGER = Logger
+            .getLogger(DelayAction.class.getName());
+
     private int delayMs;
 
     public DelayAction() {
@@ -47,26 +45,22 @@ public class DelayAction implements Action {
         try {
             parse(encoded);
         } catch (InvalidActionException ex) {
-            Logger.getLogger(DelayAction.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
     /**
-     * Get delay in milliseconds
-     * 
-     * @return delay
+     * @return delay in milliseconds
      */
     public int getDelayMs() {
         return delayMs;
     }
     
     /**
-     * Set delay in milliseconds
-     * 
-     * @param delay 
+     * @param delayMs milliseconds
      */
-    public void setDelayMs(int delay) {
-        this.delayMs = delay;
+    public void setDelayMs(int delayMs) {
+        this.delayMs = delayMs;
     }
 
     @Override
@@ -86,10 +80,9 @@ public class DelayAction implements Action {
 
     @Override
     public String encode() {
-        String encodedDelay = new StringBuilder()
-                .append(ID).append(":")
-                .append(delayMs).toString();
-        return encodedDelay;
+        return String.join(":",
+                Integer.toString(ActionType.DELAY),
+                Integer.toString(delayMs));
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.vnaskos.robotaki.ui.dialogs;
 
-import com.vnaskos.robotaki.actions.MouseClick;
+import com.vnaskos.robotaki.actions.MouseClickAction;
 import com.vnaskos.robotaki.ui.ActionObserver;
 import com.vnaskos.robotaki.utils.Button;
-import com.vnaskos.robotaki.utils.ButtonMap;
 
 /**
  *
@@ -155,16 +154,16 @@ public class MouseClickDialog extends javax.swing.JFrame {
         Button btn = null;
         switch (buttonComboBox.getSelectedIndex()) {
             case 0:
-                btn = new Button(ButtonMap.LEFT_CLICK);
+                btn = Button.LEFT_CLICK;
                 break;
             case 1:
-                btn = new Button(ButtonMap.RIGHT_CLICK);
+                btn = Button.RIGHT_CLICK;
                 break;
         }
         
         boolean press = pressStateRadio.isSelected();
 
-        MouseClick action = new MouseClick(btn, press);
+        MouseClickAction action = new MouseClickAction(btn, press);
         observer.addAction(action);
         
         dispose();

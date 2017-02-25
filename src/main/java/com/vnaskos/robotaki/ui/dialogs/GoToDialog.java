@@ -1,6 +1,6 @@
 package com.vnaskos.robotaki.ui.dialogs;
 
-import com.vnaskos.robotaki.actions.MoveTo;
+import com.vnaskos.robotaki.actions.MousePositionAction;
 import com.vnaskos.robotaki.ui.ActionObserver;
 
 /**
@@ -139,7 +139,7 @@ public class GoToDialog extends javax.swing.JFrame {
         int x = Integer.parseInt(xSpinner.getValue().toString());
         int y = Integer.parseInt(ySpinner.getValue().toString());
         
-        MoveTo action = new MoveTo(x, y);
+        MousePositionAction action = new MousePositionAction(x, y);
         observer.addAction(action);
         
         dispose();

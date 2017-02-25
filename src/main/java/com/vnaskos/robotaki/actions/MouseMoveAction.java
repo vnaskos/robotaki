@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.vnaskos.robotaki.actions;
 
-import com.vnaskos.robotaki.utils.Direction;
-import com.vnaskos.robotaki.utils.DirectionMap;
+import com.vnaskos.robotaki.utils.MouseDirection;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
@@ -27,21 +25,21 @@ import java.awt.Robot;
  *
  * @author Vasilis Naskos
  */
-public class MoveXY implements Action {
-    
-    public static final int ID = 2;
+public class MouseMoveAction implements Action {
     
     private int iterations, step, delay;
-    private Direction direction;
+    private MouseDirection direction;
 
-    public MoveXY(int iterations, int step, int delay, Direction direction) {
+    public MouseMoveAction(
+            int iterations, int step,
+            int delay, MouseDirection direction) {
         this.iterations = iterations;
         this.step = step;
         this.delay = delay;
         this.direction = direction;
     }
 
-    public MoveXY(String encoded) {
+    public MouseMoveAction(String encoded) {
         parse(encoded);
     }
 
@@ -69,11 +67,11 @@ public class MoveXY implements Action {
         this.delay = delay;
     }
 
-    public Direction getDirection() {
+    public MouseDirection getDirection() {
         return direction;
     }
 
-    public void setDirection(Direction direction) {
+    public void setDirection(MouseDirection direction) {
         this.direction = direction;
     }
 
@@ -84,13 +82,13 @@ public class MoveXY implements Action {
         iterations = Integer.parseInt(fields[1]);
         step = Integer.parseInt(fields[2]);
         delay = Integer.parseInt(fields[3]);
-        direction = Direction.parseDirection(fields[4]);
+        direction = MouseDirection.parseDirection(fields[4]);
     }
 
     @Override
     public String encode() {
-        String encoded = ID+":"+iterations+":"+step+":"+delay+":"+direction;
-        return encoded;
+        return ActionType.MOUSE_MOVE + ":" + iterations + ":"
+                + step + ":" + delay + ":" + direction;
     }
 
     @Override
@@ -100,7 +98,7 @@ public class MoveXY implements Action {
         int y = point.y;
         
         for(int i=0; i<iterations; i++) {
-            if(direction.getDirectionMap() == DirectionMap.UP || direction.getDirectionMap() == DirectionMap.DOWN) {
+            if(direction.isUp() || direction.isDown()) {
                 y += step;
             } else {
                 x += step;
@@ -112,12 +110,10 @@ public class MoveXY implements Action {
 
     @Override
     public String toString() {
-        String dir = direction.toString().toLowerCase();
-        
-        int stepAbs = Math.abs(step);
-        String action = "Move mouse " + iterations + " times " + stepAbs +
-                " px " + dir + " (delay " + delay + ")";
-        return action;
+        return String.format("Move mouse %d times %d px %s (delay %d)",
+                iterations, Math.abs(step),
+                direction.toString().toLowerCase(),
+                delay);
     }
     
 }

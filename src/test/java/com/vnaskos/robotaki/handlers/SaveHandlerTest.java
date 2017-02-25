@@ -27,8 +27,7 @@ public class SaveHandlerTest {
             );
     private static final String FAKE_VALID_FILEPATH = "";
     private static final String ACTIONS_LIST_STING_RESULT
-            = ActionType.DELAY.value
-            + ":200" + System.getProperty("line.separator");
+            = ActionType.DELAY + ":200" + System.getProperty("line.separator");
     
     @Test
     public void shouldSaveActionsToFile() throws IOException {

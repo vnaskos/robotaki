@@ -19,7 +19,7 @@ package com.vnaskos.robotaki.handlers;
 import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.actions.DelayAction;
 import com.vnaskos.robotaki.actions.EndAction;
-import com.vnaskos.robotaki.actions.MoveTo;
+import com.vnaskos.robotaki.actions.MousePositionAction;
 import com.vnaskos.robotaki.actions.RepeatAction;
 import java.util.Arrays;
 import java.util.List;
@@ -34,11 +34,10 @@ import org.junit.Before;
 public class RunHandlerTest {
     
     private static final List<Action> LIST_OF_ACTIONS_WITH_REPEAT
-            = Arrays.asList(
-                    new RepeatAction(2),
-                    new MoveTo(0, 0),
+            = Arrays.asList(new RepeatAction(2),
+                    new MousePositionAction(0, 0),
                     new DelayAction(200),
-                    new MoveTo(100, 0),
+                    new MousePositionAction(100, 0),
                     new EndAction()
             );
     private static final int REPEAT_INDEX = 0;

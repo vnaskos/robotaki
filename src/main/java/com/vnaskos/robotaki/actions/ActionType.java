@@ -20,15 +20,14 @@ package com.vnaskos.robotaki.actions;
  *
  * @author Vasilis Naskos
  */
-public enum ActionType {
+public class ActionType {
     
-    MOUSE_CLICK(3), MOUSE_POSITION(1),
-    MOUSE_MOVE(2), DELAY(4), REPEAT(5),
-    END(6);
+    public static final int
+            MOUSE_POSITION = 1,
+            MOUSE_MOVE = 2,
+            MOUSE_CLICK = 3,
+            DELAY = 4,
+            REPEAT = 5,
+            END = 6;
     
-    public final int value;
-
-    private ActionType(int value) {
-        this.value = value;
-    }
 }

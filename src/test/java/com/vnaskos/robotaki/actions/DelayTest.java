@@ -49,13 +49,13 @@ public class DelayTest {
     @Test(expected=InvalidActionException.class)
     public void parse_EmptyDelayValue_ThrowInvalidException()
             throws InvalidActionException {
-        delay.parse(DelayAction.ID + ":");
+        delay.parse(ActionType.DELAY + ":");
     }
     
     @Test
     public void parse_DelayFiveMillisecondsString_DelayEqualsFive()
             throws InvalidActionException {
-        delay.parse(DelayAction.ID + ":5");
+        delay.parse(ActionType.DELAY + ":5");
         int actualDelay = delay.getDelayMs();
         assertEquals(5, actualDelay);
     }
@@ -63,7 +63,7 @@ public class DelayTest {
     @Test(expected = InvalidActionException.class)
     public void parse_DelayFiveMillisecondsStringWithSpaces_DelayEqualsFive()
             throws InvalidActionException {
-        delay.parse(DelayAction.ID + " : ");
+        delay.parse(ActionType.DELAY + " : ");
         int actualDelay = delay.getDelayMs();
         assertEquals(5, actualDelay);
     }
@@ -72,7 +72,7 @@ public class DelayTest {
     public void encode_DelayFiveMilliseconds_ReturnEncodedString() {
         delay.setDelayMs(5);
         String actualDelayString = delay.encode();
-        assertEquals(DelayAction.ID + ":5", actualDelayString);
+        assertEquals(ActionType.DELAY + ":5", actualDelayString);
     }
     
     @Test

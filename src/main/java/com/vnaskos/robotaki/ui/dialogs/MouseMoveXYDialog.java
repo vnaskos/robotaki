@@ -1,9 +1,8 @@
 package com.vnaskos.robotaki.ui.dialogs;
 
-import com.vnaskos.robotaki.actions.MoveXY;
+import com.vnaskos.robotaki.actions.MouseMoveAction;
 import com.vnaskos.robotaki.ui.ActionObserver;
-import com.vnaskos.robotaki.utils.Direction;
-import com.vnaskos.robotaki.utils.DirectionMap;
+import com.vnaskos.robotaki.utils.MouseDirection;
 
 /**
  *
@@ -205,24 +204,24 @@ public class MouseMoveXYDialog extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void okListener() {
-        Direction direction;
+        MouseDirection direction;
         int times = Integer.parseInt(timesSpinner.getValue().toString());
         int step = Integer.parseInt(stepSpinner.getValue().toString());
         int delay = Integer.parseInt(delaySpinner.getValue().toString());
 
         if (dirUpRadio.isSelected()) {
-            direction = new Direction(DirectionMap.UP);
+            direction = new MouseDirection(MouseDirection.Value.UP);
             step = -step;
         } else if (dirDownRadio.isSelected()) {
-            direction = new Direction(DirectionMap.DOWN);
+            direction = new MouseDirection(MouseDirection.Value.DOWN);
         } else if (dirLeftRadio.isSelected()) {
-            direction = new Direction(DirectionMap.LEFT);
+            direction = new MouseDirection(MouseDirection.Value.LEFT);
             step = -step;
         } else {
-            direction = new Direction(DirectionMap.RIGHT);
+            direction = new MouseDirection(MouseDirection.Value.RIGHT);
         }
 
-        MoveXY action = new MoveXY(times, step, delay, direction);
+        MouseMoveAction action = new MouseMoveAction(times, step, delay, direction);
         observer.addAction(action);
 
         dispose();

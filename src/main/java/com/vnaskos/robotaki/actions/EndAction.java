@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.vnaskos.robotaki.actions;
 
 import java.awt.Robot;
@@ -24,8 +23,6 @@ import java.awt.Robot;
  * @author Vasilis Naskos
  */
 public class EndAction implements Action {
-
-    public static final int ID = 6;
     
     protected RepeatAction repeat;
     
@@ -40,8 +37,7 @@ public class EndAction implements Action {
 
     @Override
     public String encode() {
-        String encode = ID + "";
-        return encode;
+        return Integer.toString(ActionType.END);
     }
 
     @Override
@@ -63,7 +59,6 @@ public class EndAction implements Action {
 
     @Override
     public String toString() {
-        String action = "End";
-        return action;
+        return "End";
     }
 }

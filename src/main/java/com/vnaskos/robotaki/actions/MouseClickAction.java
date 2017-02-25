@@ -14,30 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.vnaskos.robotaki.actions;
 
 import com.vnaskos.robotaki.utils.Button;
 import java.awt.Robot;
-import java.awt.event.InputEvent;
 
 /**
  *
  * @author Vasilis Naskos
  */
-public class MouseClick implements Action {
-
-    public static final int ID = 3;
+public class MouseClickAction implements Action {
 
     private Button button;
     private boolean state;
 
-    public MouseClick(Button button, boolean state) {
+    public MouseClickAction(Button button, boolean state) {
         this.button = button;
         this.state = state;
     }
 
-    public MouseClick(String encoded) {
+    public MouseClickAction(String encoded) {
         parse(encoded);
     }
     
@@ -45,42 +41,32 @@ public class MouseClick implements Action {
     public final void parse(String encoded) {
         String[] fields = encoded.split(":");
         
-        button = Button.parseButton(fields[1]);
+        button = Button.getByName(fields[1]);
         state = Boolean.parseBoolean(fields[2]);
     }
 
     @Override
     public String encode() {
-        String encoded = ID+":"+button+":"+Boolean.toString(state);
-        return encoded;
+        return String.join(":",
+                Integer.toString(ActionType.MOUSE_CLICK),
+                button.toString(),
+                Boolean.toString(state));
     }
 
     @Override
     public void execute(Robot robot) {
-        int btn = 0;
-        
-        switch(button.getButtonMap()) {
-            case LEFT_CLICK:
-                btn = InputEvent.BUTTON1_MASK;
-                break;
-            case RIGHT_CLICK:
-                btn = InputEvent.BUTTON3_MASK;
-                break;
-        }
-        
         if(state) {
-            robot.mousePress(btn);
+            robot.mousePress(button.name);
         } else {
-            robot.mouseRelease(btn);
+            robot.mouseRelease(button.name);
         }
-            
     }
 
     @Override
     public String toString() {
         String action = state ? "Press " : "Release ";
         
-        action += button.getButtonMap().toString()
+        action += button.toString()
                 .replace("_", " ").toLowerCase();
         
         return action;
