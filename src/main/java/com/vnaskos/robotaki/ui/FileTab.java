@@ -72,7 +72,7 @@ public class FileTab extends JPanel {
         
         aboutButton = new JButton("About");
         aboutButton.addActionListener((ActionEvent e) -> {
-            About about = new About();
+            AboutFrame about = new AboutFrame();
             about.setVisible(true);
         });
         add(aboutButton, cc.xy(2, 6));
