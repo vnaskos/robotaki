@@ -17,10 +17,10 @@
 package com.vnaskos.robotaki.handlers;
 
 import com.vnaskos.robotaki.actions.Action;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Writer;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,19 +32,16 @@ public class SaveHandler {
     
     private static final Logger LOGGER = Logger
             .getLogger(SaveHandler.class.getName());
-    private final ArrayList<Action> actions;
+    private final List<Action> actions;
     private final String filepath;
     
-    protected SaveHandler(ArrayList<Action> actions, String filepath) {
+    public SaveHandler(List<Action> actions, String filepath) {
         this.actions = actions;
         this.filepath = filepath;
     }
     
-    public static void save(ArrayList<Action> actions, String filepath) {
-        SaveHandler saveHandler = new SaveHandler(actions, filepath);
-        
-        String output = saveHandler.actionsToString();
-        saveHandler.saveToFile(output);
+    public void save() {
+        saveToFile(actionsToString());
     }
     
     protected String actionsToString() {
@@ -59,17 +56,17 @@ public class SaveHandler {
     }
     
     private void saveToFile(String output) {
-        try(BufferedWriter bw = getWriter()) {
-            bw.write(output);
+        try(Writer writer = getWriter()) {
+            writer.write(output);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
-    protected BufferedWriter getWriter()
+    protected Writer getWriter()
             throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
-        return bw;
+        Writer writer = new FileWriter(filepath);
+        return writer;
     }
     
 }

@@ -122,7 +122,9 @@ public class Robotaki extends JFrame {
         }
 
         String filepath = fileChooser.getSelectedFile().getPath();
-        SaveHandler.save(listView.getActions(), filepath);
+        SaveHandler saveHandler = new SaveHandler(
+                listView.getActions(), filepath);
+        saveHandler.save();
     }
 
     private void open() {
