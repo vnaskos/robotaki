@@ -36,17 +36,16 @@ public class RunHandler implements Runnable {
             .getLogger(RunHandler.class.getName());
     private static RunHandler instance;
     
-    private final List<Action> actions;
+    protected final List<Action> actions;
+    protected static boolean stop;
+    protected int nextAction = 0;
     
-    private static boolean stop;
-    private int nextAction = 0;
-    
-    protected RunHandler(ArrayList<Action> actions) {
+    protected RunHandler(List<Action> actions) {
         this.actions = actions;
         stop = false;
     }
     
-    public static void start(ArrayList<Action> actions) {
+    public static void start(List<Action> actions) {
         if(instance != null) {
             return;
         }

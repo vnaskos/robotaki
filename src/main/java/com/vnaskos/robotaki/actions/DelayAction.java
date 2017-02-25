@@ -36,7 +36,11 @@ public class DelayAction implements Action {
     private int delayMs;
 
     public DelayAction() {
-        this.delayMs = 0;
+        this(0);
+    }
+
+    public DelayAction(int delayMs) {
+        this.delayMs = delayMs;
     }
     
     public DelayAction(String encoded) {

@@ -86,8 +86,6 @@ public class OpenHandler {
         ActionFactory actionFactory = new ActionFactory();
         Action action = actionFactory.getAction(encodedAction);
 
-        validateAction(action, encodedAction);
-
         return action;
     }
     
@@ -96,14 +94,6 @@ public class OpenHandler {
         if (encodedAction == null || encodedAction.trim().isEmpty()) {
             throw new InvalidActionException(
                     "Invalid encoded action");
-        }
-    }
-    
-    private void validateAction(Action action, String encodedAction)
-            throws InvalidActionException {
-        if(action == null) {
-            throw new InvalidActionException(
-                    "Can't read the encoded action " + encodedAction);
         }
     }
 }

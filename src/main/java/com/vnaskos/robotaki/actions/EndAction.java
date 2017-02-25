@@ -56,6 +56,10 @@ public class EndAction implements Action {
     public void setRepeat(RepeatAction repeat) {
         this.repeat = repeat;
     }
+    
+    public int getRepeatIndex() {
+        return repeat.getStartIndex();
+    }
 
     @Override
     public String toString() {
