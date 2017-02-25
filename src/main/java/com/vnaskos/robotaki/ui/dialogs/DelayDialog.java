@@ -20,6 +20,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.DelayAction;
 import com.vnaskos.robotaki.ui.ActionObserver;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
@@ -47,31 +48,35 @@ public class DelayDialog extends JDialog {
     
     private void createUI() {
         setLayout(new FormLayout(
-                "f:p:g,$lcgap,f:p:g,f:p,f:p",
-                "f:p,$lgap,f:p"));
+                "f:p:g,f:p:g,$lcgap,f:p:g,f:p,f:p,f:p:g",
+                "f:p:g,f:p,$lgap,f:p,f:p:g"));
         CellConstraints cc = new CellConstraints();
         
-        add(new JLabel("Delay (ms):"), cc.xy(1, 1));
+        add(new JLabel("Delay (ms):"), cc.xy(2, 2));
         
         delaySpinner = new JSpinner(
                 new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-        add(delaySpinner, cc.xyw(3, 1, 3));
+        add(delaySpinner, cc.xyw(4, 2, 3));
          
         okButton = new JButton("OK");
         okButton.addActionListener((ActionEvent e) -> {
             DelayAction action = new DelayAction();
             action.setDelayMs(Integer.parseInt(delaySpinner.getValue().toString()));
             list.addAction(action);
+            dispose();
         });
-        add(okButton, cc.xy(4, 3));
+        add(okButton, cc.xy(5, 4));
         
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener((ActionEvent e) -> {
             dispose();
         });
-        add(cancelButton, cc.xy(5, 3));
+        add(cancelButton, cc.xy(6, 4));
         
+        setTitle("Delay");
+        setPreferredSize(new Dimension(300, 150));
         pack();
+        setResizable(false);
         setLocationRelativeTo(null);
     }
     
