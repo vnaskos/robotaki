@@ -35,4 +35,11 @@ public enum Button {
     public static Button getByName(String name) {
         return Button.valueOf(name);
     }
+
+    @Override
+    public String toString() {
+        return super.toString()
+                .replace("_", " ")
+                .toLowerCase();
+    }
 }
