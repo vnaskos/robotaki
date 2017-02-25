@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Robotaki.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.vnaskos.robotaki.handlers;
+package com.vnaskos.robotaki.actions;
 
 import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.actions.DelayAction;
