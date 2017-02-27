@@ -44,7 +44,7 @@ public class EndAction implements Action {
     public void execute(Robot robot) {}
     
     public int getNextIndex(int nextAction) {
-        return repeat.getCounter() == 0
+        return repeat.getCounter() < 0
                 ? nextAction + 1
                 : repeat.getStartIndex();
     }
