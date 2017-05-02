@@ -73,7 +73,7 @@ public class RepeatDialog extends JDialog {
         });
         dialogOptionsPanel.add(cancelButton, cc.xy(3,1));
         
-        setTitle("Mouse Position");
+        setTitle("Repeat");
         setPreferredSize(new Dimension(300, 150));
         pack();
         setResizable(false);
