@@ -33,7 +33,7 @@ import com.vnaskos.robotaki.ui.ActionsListObserver;
  * @author Vasilis Naskos
  */
 public class OpenHandler {
-    
+
     private static final Logger LOGGER = Logger
             .getLogger(OpenHandler.class.getName());
     protected ActionsListObserver observer;
@@ -41,11 +41,11 @@ public class OpenHandler {
     public OpenHandler(ActionsListObserver observer) {
         this.observer = observer;
     }
-    
+
     public void open(String filepath)
             throws FileNotFoundException {
         validateFile(filepath);
-        
+
         try (BufferedReader in = getReader(filepath)) {
             parseActions(in);
         } catch (IOException ex) {
@@ -60,16 +60,13 @@ public class OpenHandler {
         }
     }
 
-    protected BufferedReader getReader(String filepath)
-            throws FileNotFoundException {
-        BufferedReader in = new BufferedReader(new FileReader(filepath));
-        return in;
+    protected BufferedReader getReader(String filepath) throws IOException {
+        return new BufferedReader(new FileReader(filepath));
     }
-    
-    protected void parseActions(BufferedReader in)
-            throws IOException {
+
+    protected void parseActions(BufferedReader in) throws IOException {
         String encodedAction;
-        
+
         while ((encodedAction = in.readLine()) != null) {
             try {
                 Action action = parseSingleAction(encodedAction);
@@ -79,7 +76,7 @@ public class OpenHandler {
             }
         }
     }
-    
+
     protected Action parseSingleAction(String encodedAction)
             throws InvalidActionException {
         validateEncodedAction(encodedAction);
@@ -89,7 +86,7 @@ public class OpenHandler {
 
         return action;
     }
-    
+
     private void validateEncodedAction(String encodedAction)
             throws InvalidActionException{
         if (encodedAction == null || encodedAction.trim().isEmpty()) {

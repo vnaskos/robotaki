@@ -26,9 +26,9 @@ import org.junit.Test;
  * @author Vasilis Naskos
  */
 public class DelayTest {
-    
+
     DelayAction delay;
-    
+
     @Before
     public void setUp() {
         delay = new DelayAction();
@@ -39,42 +39,39 @@ public class DelayTest {
             throws InvalidActionException {
         delay.parse(null);
     }
-    
+
     @Test(expected = InvalidActionException.class)
     public void parse_EmptyString_ThrowInvalidException()
             throws InvalidActionException {
         delay.parse("");
     }
-    
+
     @Test(expected=InvalidActionException.class)
-    public void parse_EmptyDelayValue_ThrowInvalidException()
-            throws InvalidActionException {
+    public void parse_EmptyDelayValue_ThrowInvalidException() throws InvalidActionException {
         delay.parse(ActionType.DELAY + ":");
     }
-    
+
     @Test
-    public void parse_DelayFiveMillisecondsString_DelayEqualsFive()
-            throws InvalidActionException {
+    public void parse_DelayFiveMillisecondsString_DelayEqualsFive() throws InvalidActionException {
         delay.parse(ActionType.DELAY + ":5");
         int actualDelay = delay.getDelayMs();
         assertEquals(5, actualDelay);
     }
-    
+
     @Test(expected = InvalidActionException.class)
-    public void parse_DelayFiveMillisecondsStringWithSpaces_DelayEqualsFive()
-            throws InvalidActionException {
+    public void parse_DelayFiveMillisecondsStringWithSpaces_DelayEqualsFive() throws InvalidActionException {
         delay.parse(ActionType.DELAY + " : ");
         int actualDelay = delay.getDelayMs();
         assertEquals(5, actualDelay);
     }
-    
+
     @Test
     public void encode_DelayFiveMilliseconds_ReturnEncodedString() {
         delay.setDelayMs(5);
         String actualDelayString = delay.encode();
         assertEquals(ActionType.DELAY + ":5", actualDelayString);
     }
-    
+
     @Test
     public void toString_DelayTwoMinutesFiveSeconds_ReturnInHumanReadableFormat() {
         delay.setDelayMs(125000);

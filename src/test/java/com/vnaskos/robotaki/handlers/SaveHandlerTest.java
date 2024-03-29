@@ -8,73 +8,68 @@ package com.vnaskos.robotaki.handlers;
 import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.actions.ActionType;
 import com.vnaskos.robotaki.actions.DelayAction;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.Writer;
+import java.util.List;
 
 /**
  *
  * @author Vasilis Naskos
  */
 public class SaveHandlerTest {
-    
-    private static final List<Action> LIST_OF_ACTIONS
-            = Arrays.asList(
-                    new DelayAction(200)
-            );
+
+    private static final List<Action> LIST_OF_ACTIONS = List.of(new DelayAction(200));
     private static final String FAKE_VALID_FILEPATH = "";
-    private static final String ACTIONS_LIST_STING_RESULT
-            = ActionType.DELAY + ":200" + System.getProperty("line.separator");
-    
+    private static final String ACTIONS_LIST_STING_RESULT = ActionType.DELAY + ":200" + System.lineSeparator();
+
     @Test
-    public void shouldSaveActionsToFile() throws IOException {
+    public void shouldSaveActionsToFile() {
         TestableSaveHandler saveHandler = new TestableSaveHandler(
-                LIST_OF_ACTIONS, FAKE_VALID_FILEPATH);
-        
+            LIST_OF_ACTIONS, FAKE_VALID_FILEPATH);
+
         saveHandler.save();
-        
+
         Assert.assertEquals(
                 ACTIONS_LIST_STING_RESULT,
                 saveHandler.writer.content);
     }
-    
-    private class TestableSaveHandler extends SaveHandler {
-        
+
+    private static class TestableSaveHandler extends SaveHandler {
+
         public FakeWriter writer = new FakeWriter();
-        
+
         public TestableSaveHandler(List<Action> actions, String filepath) {
             super(actions, filepath);
         }
 
         @Override
-        protected Writer getWriter() throws IOException {
+        protected Writer getWriter() {
             return writer;
         }
-        
+
     }
-    
-    private class FakeWriter extends Writer {
+
+    private static class FakeWriter extends Writer {
 
         public String content = "";
-        
+
         @Override
-        public void write(char[] cbuf, int off, int len) throws IOException {
+        public void write(char[] cbuf, int off, int len) {
         }
 
         @Override
-        public void write(String str) throws IOException {
+        public void write(String str) {
             content += str;
         }
-        
-        @Override
-        public void flush() throws IOException {}
 
         @Override
-        public void close() throws IOException {}
-        
+        public void flush() {}
+
+        @Override
+        public void close() {}
+
     }
-    
+
 }
