@@ -82,9 +82,8 @@ public class OpenHandler {
         validateEncodedAction(encodedAction);
 
         ActionFactory actionFactory = new ActionFactory();
-        Action action = actionFactory.getAction(encodedAction);
 
-        return action;
+        return actionFactory.getAction(encodedAction);
     }
 
     private void validateEncodedAction(String encodedAction)

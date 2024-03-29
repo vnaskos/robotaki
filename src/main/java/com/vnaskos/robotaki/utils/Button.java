@@ -23,15 +23,15 @@ import java.awt.event.InputEvent;
  * @author Vasilis Naskos
  */
 public enum Button {
-    LEFT_CLICK(InputEvent.BUTTON1_MASK),
-    RIGHT_CLICK(InputEvent.BUTTON3_MASK);
-    
-    public int name;
+    LEFT_CLICK(InputEvent.BUTTON1_DOWN_MASK),
+    RIGHT_CLICK(InputEvent.BUTTON3_DOWN_MASK);
 
-    private Button(int name) {
+    public final int name;
+
+    Button(int name) {
         this.name = name;
     }
-    
+
     public static Button getByName(String name) {
         return Button.valueOf(name);
     }

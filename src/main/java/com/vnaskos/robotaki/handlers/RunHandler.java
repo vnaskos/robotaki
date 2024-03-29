@@ -31,49 +31,48 @@ import java.util.logging.Logger;
  * @author Vasilis Naskos
  */
 public class RunHandler implements Runnable {
-    
-    private static final Logger LOGGER = Logger
-            .getLogger(RunHandler.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(RunHandler.class.getName());
     private static RunHandler instance;
-    
+
     protected final List<Action> actions;
     protected static boolean stop;
     protected int nextAction = 0;
-    
+
     protected RunHandler(List<Action> actions) {
         this.actions = actions;
         stop = false;
     }
-    
+
     public static void start(List<Action> actions) {
         if(instance != null) {
             return;
         }
-        
+
         new Thread(new RunHandler(actions)).start();
     }
-    
+
     @Override
     public void run() {
         Robot robot = getRobot();
-        
+
         if(robot == null) {
             return;
         }
-        
+
         constructRepeatEndPairsFromActions();
-        
+
         while(nextAction < actions.size()) {
             if(stop) { break; }
-            
+
             Action action = actions.get(nextAction);
             action.execute(robot);
             calculateNextIndex(action);
         }
-        
+
         destroyInstance();
     }
-    
+
     protected Robot getRobot() {
         try {
             return new Robot();
@@ -82,19 +81,18 @@ public class RunHandler implements Runnable {
             return null;
         }
     }
-    
+
     protected void constructRepeatEndPairsFromActions() {
-        List<RepeatAction> repeats = new ArrayList();
-                
+        List<RepeatAction> repeats = new ArrayList<>();
+
         for(int i=0; i<actions.size(); i++) {
             Action action = actions.get(i);
-            
+
             if(action instanceof RepeatAction) {
-                repeats.add(0, initRepeat(action, i));
-            } else if(action instanceof EndAction) {
-                EndAction end = (EndAction) action;
-                end.setRepeat(repeats.get(0));
-                repeats.remove(0);
+                repeats.addFirst(initRepeat(action, i));
+            } else if(action instanceof EndAction end) {
+                end.setRepeat(repeats.getFirst());
+                repeats.removeFirst();
             }
         }
     }
@@ -103,25 +101,24 @@ public class RunHandler implements Runnable {
         RepeatAction repeat = (RepeatAction) action;
         repeat.setStartIndex(i);
         repeat.setCounter();
-        
+
         return repeat;
     }
-    
+
     protected void calculateNextIndex(Action action) {
-        if(action instanceof EndAction) {
-            EndAction end = (EndAction) action;
+        if(action instanceof EndAction end) {
             nextAction = end.getNextIndex(nextAction);
         } else {
             nextAction++;
         }
     }
-    
+
     protected void destroyInstance() {
         instance = null;
     }
-    
+
     public static void stop() {
         stop = true;
     }
-    
+
 }

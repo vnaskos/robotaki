@@ -35,72 +35,57 @@ import javax.swing.JPanel;
 public class ActionsTab extends JPanel {
 
     private final ActionsListObserver list;
-    
-    private JButton goToButton, moveXYButton,
-            mouseClickButton, delayBtn, repeatButton,
-            endButton;
-    
     private final MouseClickDialog mouseClickDialog;
     private final MousePositionDialog goToDialog;
     private final MouseMoveDialog moveXYDialog;
     private final DelayDialog delayDialog;
     private final RepeatDialog repeatDialog;
-    
+
     public ActionsTab(ActionsListObserver list) {
         this.list = list;
-        
+
         createUI();
-        
+
         goToDialog = new MousePositionDialog(list);
         mouseClickDialog = new MouseClickDialog(list);
         moveXYDialog = new MouseMoveDialog(list);
         delayDialog = new DelayDialog(list);
         repeatDialog = new RepeatDialog(list);
     }
-    
+
     private void createUI() {
         setLayout(new FormLayout(
                 "$lcgap,f:p:g,$lcgap",
                 "[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p]"));
         CellConstraints cc = new CellConstraints();
-        
-        goToButton = new JButton("Go To");
-        goToButton.addActionListener((ActionEvent e) -> {
-            goToDialog.setVisible(true);
-        });
+
+        JButton goToButton = new JButton("Go To");
+        goToButton.addActionListener((ActionEvent e) -> goToDialog.setVisible(true));
         add(goToButton, cc.xy(2, 1));
-        
-        moveXYButton = new JButton("Move at X,Y");
-        moveXYButton.addActionListener((ActionEvent e) -> {
-            moveXYDialog.setVisible(true);
-        });
+
+        JButton moveXYButton = new JButton("Move at X,Y");
+        moveXYButton.addActionListener((ActionEvent e) -> moveXYDialog.setVisible(true));
         add(moveXYButton, cc.xy(2, 2));
-        
-        mouseClickButton = new JButton("Mouse Click");
-        mouseClickButton.addActionListener((ActionEvent e) -> {
-            mouseClickDialog.setVisible(true);
-        });
+
+        JButton mouseClickButton = new JButton("Mouse Click");
+        mouseClickButton.addActionListener((ActionEvent e) -> mouseClickDialog.setVisible(true));
         add(mouseClickButton, cc.xy(2, 3));
-        
-        delayBtn = new JButton("Delay");
-        delayBtn.addActionListener((ActionEvent e) -> {
-            delayDialog.setVisible(true);
-        });
+
+        JButton delayBtn = new JButton("Delay");
+        delayBtn.addActionListener((ActionEvent e) -> delayDialog.setVisible(true));
         add(delayBtn, cc.xy(2, 4));
-        
-        repeatButton = new JButton("Repeat");
-        repeatButton.addActionListener((ActionEvent e) -> {
-            repeatDialog.setVisible(true);
-        });
+
+        JButton repeatButton = new JButton("Repeat");
+        repeatButton.addActionListener((ActionEvent e) -> repeatDialog.setVisible(true));
         add(repeatButton, cc.xy(2, 5));
-        
-        endButton = new JButton("End");
+
+        JButton endButton = new JButton("End");
         endButton.addActionListener((ActionEvent e) -> {
             EndAction end = new EndAction();
             list.addAction(end);
         });
-        
+
         add(endButton, cc.xy(2, 6));
     }
-    
+
 }

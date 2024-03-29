@@ -23,7 +23,7 @@ import java.awt.Robot;
  * @author Vasilis Naskos
  */
 public class MousePositionAction implements Action {
-    
+
     private int x, y;
 
     public MousePositionAction(int x, int y) {
@@ -35,33 +35,17 @@ public class MousePositionAction implements Action {
         parse(encoded);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     @Override
     public final void parse(String encoded) {
         String[] fields = encoded.split(":");
-        
+
         x = Integer.parseInt(fields[1]);
         y = Integer.parseInt(fields[2]);
     }
-    
+
     @Override
     public String encode() {
-        return String.join(":", 
+        return String.join(":",
                 Integer.toString(ActionType.MOUSE_POSITION),
                 Integer.toString(x),
                 Integer.toString(y));
@@ -71,7 +55,7 @@ public class MousePositionAction implements Action {
     public void execute(Robot robot) {
         robot.mouseMove(x, y);
     }
-    
+
     @Override
     public String toString() {
         return String.format("Move mouse to (%d,%d)", x, y);

@@ -33,41 +33,40 @@ import com.vnaskos.robotaki.ui.ActionsListObserver;
  * @author Vasilis Naskos
  */
 public class DelayDialog extends JDialog {
-    
+
     private final ActionsListObserver list;
-    
+
     private SpinnerNumberModel spinnerModel;
-    private JButton okButton;
 
     public DelayDialog(ActionsListObserver list) {
         this.list = list;
         createUI();
     }
-    
+
     private void createUI() {
         setLayout(new FormLayout(
                 "f:p:g,f:p:g,$lcgap,f:p:g,f:p,f:p,f:p:g",
                 "f:p:g,f:p,$lgap,f:p,f:p:g"));
         CellConstraints cc = new CellConstraints();
-        
+
         add(new JLabel("Delay (ms):"), cc.xy(2, 2));
-        
+
         spinnerModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         JSpinner delaySpinner = new JSpinner(spinnerModel);
         add(delaySpinner, cc.xyw(4, 2, 3));
-         
-        okButton = new JButton("OK");
+
+        JButton okButton = new JButton("OK");
         okButton.addActionListener((ActionEvent e) -> {
             okButtonPressed();
         });
         add(okButton, cc.xy(5, 4));
-        
+
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener((ActionEvent e) -> {
             dispose();
         });
         add(cancelButton, cc.xy(6, 4));
-        
+
         setTitle("Delay");
         setPreferredSize(new Dimension(300, 150));
         pack();
@@ -81,5 +80,5 @@ public class DelayDialog extends JDialog {
         list.addAction(action);
         dispose();
     }
-    
+
 }

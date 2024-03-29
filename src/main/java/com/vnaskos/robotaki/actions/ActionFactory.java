@@ -23,37 +23,21 @@ import com.vnaskos.robotaki.exceptions.InvalidActionException;
  * @author Vasilis Naskos
  */
 public class ActionFactory {
-    
-    public Action getAction(String encodedAction) 
+
+    public Action getAction(String encodedAction)
             throws InvalidActionException {
         int id = Integer.parseInt(encodedAction.split(":")[0]);
-        Action action = null;
-        
-        switch (id) {
-            case ActionType.MOUSE_POSITION:
-                action = new MousePositionAction(encodedAction);
-                break;
-            case ActionType.MOUSE_MOVE:
-                action = new MouseMoveAction(encodedAction);
-                break;
-            case ActionType.MOUSE_CLICK:
-                action = new MouseClickAction(encodedAction);
-                break;
-            case ActionType.DELAY:
-                action = new DelayAction(encodedAction);
-                break;
-            case ActionType.REPEAT:
-                action = new RepeatAction(encodedAction);
-                break;
-            case ActionType.END:
-                action = new EndAction(encodedAction);
-                break;
-            default:
-                throw new InvalidActionException(
-                        "Unknown action " + encodedAction);
-        }
-        
-        return action;
+
+        return switch (id) {
+            case ActionType.MOUSE_POSITION -> new MousePositionAction(encodedAction);
+            case ActionType.MOUSE_MOVE -> new MouseMoveAction(encodedAction);
+            case ActionType.MOUSE_CLICK -> new MouseClickAction(encodedAction);
+            case ActionType.DELAY -> new DelayAction(encodedAction);
+            case ActionType.REPEAT -> new RepeatAction(encodedAction);
+            case ActionType.END -> new EndAction(encodedAction);
+            default -> throw new InvalidActionException(
+                "Unknown action " + encodedAction);
+        };
     }
-    
+
 }

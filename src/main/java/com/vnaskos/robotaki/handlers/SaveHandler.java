@@ -29,32 +29,31 @@ import java.util.logging.Logger;
  * @author Vasilis Naskos
  */
 public class SaveHandler {
-    
-    private static final Logger LOGGER = Logger
-            .getLogger(SaveHandler.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(SaveHandler.class.getName());
     private final List<Action> actions;
     private final String filepath;
-    
+
     public SaveHandler(List<Action> actions, String filepath) {
         this.actions = actions;
         this.filepath = filepath;
     }
-    
+
     public void save() {
         saveToFile(actionsToString());
     }
-    
+
     protected String actionsToString() {
         StringBuilder output = new StringBuilder();
 
         for (Action action : actions) {
             output.append(action.encode());
-            output.append(System.getProperty("line.separator"));
+            output.append(System.lineSeparator());
         }
-        
+
         return output.toString();
     }
-    
+
     private void saveToFile(String output) {
         try(Writer writer = getWriter()) {
             writer.write(output);
@@ -63,10 +62,8 @@ public class SaveHandler {
         }
     }
 
-    protected Writer getWriter()
-            throws IOException {
-        Writer writer = new FileWriter(filepath);
-        return writer;
+    protected Writer getWriter() throws IOException {
+        return new FileWriter(filepath);
     }
-    
+
 }
