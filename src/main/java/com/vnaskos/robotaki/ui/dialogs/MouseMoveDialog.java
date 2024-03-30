@@ -16,8 +16,6 @@
  */
 package com.vnaskos.robotaki.ui.dialogs;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.MouseMoveAction;
 import com.vnaskos.robotaki.ui.ActionsListObserver;
 import com.vnaskos.robotaki.utils.MouseDirection;
@@ -43,30 +41,46 @@ public class MouseMoveDialog extends JDialog {
     }
 
     private void createUI() {
-        setLayout(new FormLayout(
-                "f:p:g,right:p,f:p,f:p:g",
-                "f:p:g,f:p,$lgap,f:p,$lgap,f:p,$lgap,f:p,$lgap,f:p,f:p:g"));
-        CellConstraints cc = new CellConstraints();
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        add(new JLabel("Times:"), cc.xy(2, 2));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Times:"), gbc);
 
         timesSpinnerModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         JSpinner timesSpinner = new JSpinner(timesSpinnerModel);
-        add(timesSpinner, cc.xy(3, 2));
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(timesSpinner, gbc);
 
-        add(new JLabel("Step:"), cc.xy(2, 4));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Step:"), gbc);
 
         stepSpinnerModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         JSpinner stepSpinner = new JSpinner(stepSpinnerModel);
-        add(stepSpinner, cc.xy(3, 4));
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(stepSpinner, gbc);
 
-        add(new JLabel("Delay:"), cc.xy(2, 6));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Delay:"), gbc);
 
         delaySpinnerModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         JSpinner delaySpinner = new JSpinner(delaySpinnerModel);
-        add(delaySpinner, cc.xy(3, 6));
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(delaySpinner, gbc);
 
-        add(new JLabel("Direction:"), cc.xy(2, 8));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Direction:"), gbc);
 
         directionComboModel = new DefaultComboBoxModel<>(
                 new MouseDirection[] {
@@ -76,20 +90,28 @@ public class MouseMoveDialog extends JDialog {
                     new MouseDirection(MouseDirection.Value.RIGHT)
                 });
         JComboBox<MouseDirection> directionComboBox = new JComboBox<>(directionComboModel);
-        add(directionComboBox, cc.xy(3, 8));
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(directionComboBox, gbc);
 
-        JPanel dialogOptionsPanel = new JPanel(new FormLayout(
-                "f:p:g,right:p,right:p",
-                "f:p"));
-        add(dialogOptionsPanel, cc.xyw(2, 10, 2));
+        JPanel dialogOptionsPanel = new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(5, 0, 5, 0);
+        add(dialogOptionsPanel, gbc);
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener((e) -> okButtonListener());
-        dialogOptionsPanel.add(okButton, cc.xy(2,1));
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        dialogOptionsPanel.add(okButton, gbc);
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener((e) -> dispose());
-        dialogOptionsPanel.add(cancelButton, cc.xy(3,1));
+        gbc.gridx = 1;
+        dialogOptionsPanel.add(cancelButton, gbc);
 
         setTitle("Mouse Move");
         setPreferredSize(new Dimension(300, 200));

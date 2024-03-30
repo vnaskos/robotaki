@@ -16,9 +16,9 @@
  */
 package com.vnaskos.robotaki.ui;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.Action;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -35,91 +35,99 @@ public class ListView extends JPanel {
 
     private JList<Action> actionsList;
     private DefaultListModel<Action> model;
-    private JButton moveUpButton, moveDownButton, removeButton, clearButton;
-    
+
+    private void removeElement(ActionEvent e) {
+        int[] selectedIndices = actionsList.getSelectedIndices();
+
+        for (int i = selectedIndices.length - 1; i >= 0; i--) {
+            model.removeElementAt(selectedIndices[i]);
+        }
+    }
+
     private enum Direction {
         UP(-1), DOWN(1);
-        
-        public int value;
-        
-        private Direction(int value) {
+
+        public final int value;
+
+        Direction(int value) {
             this.value = value;
         }
     }
-    
+
     public ListView() {
         createUI();
     }
-    
+
     private void createUI() {
-        setLayout(new FormLayout(
-                "$lcgap,f:p:g,f:p:g,f:p:g,f:p:g,$lcgap,",
-                "f:p:g,$lgap,f:p,$lgap"));
-        CellConstraints cc = new CellConstraints();
-        
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
         model =  new DefaultListModel<>();
         actionsList = new JList<>();
         actionsList.setModel(model);
-        add(new JScrollPane(actionsList), cc.xyw(1, 1, 6));
-        
-        moveUpButton = new JButton("Move Up");
-        moveUpButton.addActionListener((ActionEvent e) -> {
-            moveSelectedElements(Direction.UP);
-        });
-        add(moveUpButton, cc.xy(2, 3));
-        
-        moveDownButton = new JButton("Move Down");
-        moveDownButton.addActionListener((ActionEvent e) -> {
-            moveSelectedElements(Direction.DOWN);
-        });
-        add(moveDownButton, cc.xy(3, 3));
-        
-        removeButton = new JButton("Remove");
-        removeButton.addActionListener((ActionEvent e) -> {
-            int[] selectedIndices = actionsList.getSelectedIndices();
-            
-            for(int i=selectedIndices.length-1; i>=0; i--) {
-                model.removeElementAt(selectedIndices[i]);
-            }
-        });
-        add(removeButton, cc.xy(4, 3));
-        
-        clearButton = new JButton("Clear");
-        clearButton.addActionListener((ActionEvent e) -> {
-            model.clear();
-        });
-        add(clearButton, cc.xy(5, 3));
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.gridwidth = 4;
+        add(new JScrollPane(actionsList), gbc);
+
+        JButton moveUpButton = new JButton("Move Up");
+        moveUpButton.addActionListener((ActionEvent e) -> moveSelectedElements(Direction.UP));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.gridwidth = 1;
+        add(moveUpButton, gbc);
+
+        JButton moveDownButton = new JButton("Move Down");
+        moveDownButton.addActionListener((ActionEvent e) -> moveSelectedElements(Direction.DOWN));
+        gbc.gridx = 1;
+        add(moveDownButton, gbc);
+
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(this::removeElement);
+        gbc.gridx = 2;
+        add(removeButton, gbc);
+
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener((ActionEvent e) -> model.clear());
+        gbc.gridx = 3;
+        add(clearButton, gbc);
     }
-    
+
     private void moveSelectedElements(Direction direction) {
         int[] indices = actionsList.getSelectedIndices();
-        
+
         if(indices.length == 0
                 || (indices[0] == 0 && direction == Direction.UP)
                 || (indices[indices.length-1] == model.getSize()-1
                     && direction == Direction.DOWN)) {
             return;
         }
-        
+
         for(int i=0; i<indices.length; i++) {
             Action actionToMove = model.remove(indices[i]);
-            indices[i] = indices[i] + (1 * direction.value);
+            indices[i] = indices[i] + (direction.value);
             model.add(indices[i], actionToMove);
         }
-        
+
         actionsList.setSelectedIndices(indices);
         actionsList.updateUI();
     }
-    
+
     public void addAction(Action action) {
         model.addElement(action);
     }
-    
+
     public ArrayList<Action> getActions() {
         ArrayList<Action> actions = new ArrayList<>();
 
         for (int i = 0; i < model.size(); i++) {
-            Action a = (Action) model.get(i);
+            Action a = model.get(i);
             actions.add(a);
         }
 

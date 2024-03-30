@@ -16,19 +16,12 @@
  */
 package com.vnaskos.robotaki.ui.dialogs;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.MouseClickAction;
 import com.vnaskos.robotaki.ui.ActionsListObserver;
 import com.vnaskos.robotaki.utils.Button;
-import java.awt.Dimension;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -47,43 +40,61 @@ public class MouseClickDialog extends JDialog {
     }
 
     private void createUI() {
-        setLayout(new FormLayout(
-                "f:p:g,right:p,f:p,f:p:g",
-                "f:p:g,f:p,$lgap,f:p,$lgap,f:p,f:p:g"));
-        CellConstraints cc = new CellConstraints();
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        add(new JLabel("Button:"), cc.xy(2, 2));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Button:"), gbc);
 
         buttonComboModel = new DefaultComboBoxModel<>(
                 new Button[] {
                     Button.LEFT_CLICK, Button.RIGHT_CLICK
                 });
         JComboBox<Button> buttonComboBox = new JComboBox<>(buttonComboModel);
-        add(buttonComboBox, cc.xy(3, 2));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(buttonComboBox, gbc);
 
-        add(new JLabel("State:"), cc.xy(2, 4));
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("State:"), gbc);
 
         ComboBoxModel<String> stateComboModel = new DefaultComboBoxModel<>(
                 new String[] {
                     "press", "release"
                 });
         stateComboBox = new JComboBox<>(stateComboModel);
-        add(stateComboBox, cc.xy(3, 4));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(stateComboBox, gbc);
 
-        JPanel dialogOptionsPanel = new JPanel(new FormLayout(
-                "f:p:g,right:p,right:p",
-                "f:p"));
-        add(dialogOptionsPanel, cc.xyw(2, 6, 2));
+        JPanel dialogOptionsPanel = new JPanel(new GridBagLayout());
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(5, 0, 5, 0);
+        add(dialogOptionsPanel, gbc);
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener((e) -> okButtonListener());
-        dialogOptionsPanel.add(okButton, cc.xy(2,1));
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        dialogOptionsPanel.add(okButton, gbc);
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener((e) -> {
-            dispose();
-        });
-        dialogOptionsPanel.add(cancelButton, cc.xy(3,1));
+        cancelButton.addActionListener((e) -> dispose());
+        gbc.gridx = 1;
+        dialogOptionsPanel.add(cancelButton, gbc);
 
         setTitle("Mouse Click");
         setPreferredSize(new Dimension(300, 200));

@@ -16,26 +16,21 @@
  */
 package com.vnaskos.robotaki;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.Action;
 import com.vnaskos.robotaki.handlers.OpenHandler;
 import com.vnaskos.robotaki.handlers.RunHandler;
 import com.vnaskos.robotaki.handlers.SaveHandler;
-import com.vnaskos.robotaki.ui.ListView;
+import com.vnaskos.robotaki.ui.ActionsListObserver;
 import com.vnaskos.robotaki.ui.ActionsTab;
 import com.vnaskos.robotaki.ui.FileTab;
-import java.awt.Dimension;
+import com.vnaskos.robotaki.ui.ListView;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import com.vnaskos.robotaki.ui.ActionsListObserver;
 
 /**
  *
@@ -43,38 +38,43 @@ import com.vnaskos.robotaki.ui.ActionsListObserver;
  */
 public class Robotaki extends JFrame {
 
-    private final ActionsListObserver listObserver;
-    
+    private ActionsListObserver listObserver;
+
     private ListView listView;
-    private JTabbedPane toolboxTabs;
-    private ActionsTab toolboxView;
-    private FileTab fileTab;
-    
-    private JFileChooser fileChooser;
-    
+
+    private final JFileChooser fileChooser;
+
     public Robotaki() {
-        this.listObserver = new DefaultActionsListObserver();
+        fileChooser = new JFileChooser();
+
         createUI();
     }
-    
+
     private void createUI() {
-        setLayout(new FormLayout("f:p:g,f:p:g", "f:p:g"));
-        
-        CellConstraints cc = new CellConstraints();
-        
-        fileChooser = new JFileChooser();
-        
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
         listView = new ListView();
-        add(listView, cc.xy(1, 1));
-        
-        toolboxTabs = new JTabbedPane();
-        add(toolboxTabs, cc.xy(2, 1));
-        
-        toolboxView = new ActionsTab(listObserver);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.8;
+        gbc.weighty = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(listView, gbc);
+
+        JTabbedPane toolboxTabs = new JTabbedPane();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.2;
+        gbc.gridx = 2;
+        add(toolboxTabs, gbc);
+
+        listObserver = new DefaultActionsListObserver();
+        ActionsTab toolboxView = new ActionsTab(listObserver);
         toolboxTabs.addTab("Actions", toolboxView);
-        fileTab = new FileTab(this);
+        FileTab fileTab = new FileTab(this);
         toolboxTabs.add("File", fileTab);
-        
+
         setMinimumSize(new Dimension(500, 200));
         setPreferredSize(new Dimension(520, 400));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,7 +82,7 @@ public class Robotaki extends JFrame {
         setLocationRelativeTo(null);
         pack();
     }
-    
+
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -90,19 +90,18 @@ public class Robotaki extends JFrame {
                 | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Robotaki.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Robotaki robotaki = new Robotaki();
         robotaki.setVisible(true);
     }
-    
+
     public void save() {
         if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
             return;
         }
 
         String filepath = fileChooser.getSelectedFile().getPath();
-        SaveHandler saveHandler = new SaveHandler(
-                listView.getActions(), filepath);
+        SaveHandler saveHandler = new SaveHandler(listView.getActions(), filepath);
         saveHandler.save();
     }
 
@@ -126,7 +125,7 @@ public class Robotaki extends JFrame {
 
         RunHandler.start(actions);
     }
-    
+
     public void toggleAlwaysOnTop() {
         this.setAlwaysOnTop(!this.isAlwaysOnTop());
     }

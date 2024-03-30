@@ -16,17 +16,16 @@
  */
 package com.vnaskos.robotaki.ui;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.EndAction;
 import com.vnaskos.robotaki.ui.dialogs.DelayDialog;
 import com.vnaskos.robotaki.ui.dialogs.MouseClickDialog;
 import com.vnaskos.robotaki.ui.dialogs.MouseMoveDialog;
 import com.vnaskos.robotaki.ui.dialogs.MousePositionDialog;
 import com.vnaskos.robotaki.ui.dialogs.RepeatDialog;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 /**
  *
@@ -54,30 +53,32 @@ public class ActionsTab extends JPanel {
     }
 
     private void createUI() {
-        setLayout(new FormLayout(
-                "$lcgap,f:p:g,$lcgap",
-                "[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p]"));
-        CellConstraints cc = new CellConstraints();
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
         JButton goToButton = new JButton("Go To");
         goToButton.addActionListener((ActionEvent e) -> goToDialog.setVisible(true));
-        add(goToButton, cc.xy(2, 1));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTH;
+        add(goToButton, gbc);
 
         JButton moveXYButton = new JButton("Move at X,Y");
         moveXYButton.addActionListener((ActionEvent e) -> moveXYDialog.setVisible(true));
-        add(moveXYButton, cc.xy(2, 2));
+        add(moveXYButton, gbc);
 
         JButton mouseClickButton = new JButton("Mouse Click");
         mouseClickButton.addActionListener((ActionEvent e) -> mouseClickDialog.setVisible(true));
-        add(mouseClickButton, cc.xy(2, 3));
+        add(mouseClickButton, gbc);
 
         JButton delayBtn = new JButton("Delay");
         delayBtn.addActionListener((ActionEvent e) -> delayDialog.setVisible(true));
-        add(delayBtn, cc.xy(2, 4));
+        add(delayBtn, gbc);
 
         JButton repeatButton = new JButton("Repeat");
         repeatButton.addActionListener((ActionEvent e) -> repeatDialog.setVisible(true));
-        add(repeatButton, cc.xy(2, 5));
+        add(repeatButton, gbc);
 
         JButton endButton = new JButton("End");
         endButton.addActionListener((ActionEvent e) -> {
@@ -85,7 +86,7 @@ public class ActionsTab extends JPanel {
             list.addAction(end);
         });
 
-        add(endButton, cc.xy(2, 6));
+        add(endButton, gbc);
     }
 
 }

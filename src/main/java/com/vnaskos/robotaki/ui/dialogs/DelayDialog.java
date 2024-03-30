@@ -16,17 +16,12 @@
  */
 package com.vnaskos.robotaki.ui.dialogs;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.actions.DelayAction;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import com.vnaskos.robotaki.ui.ActionsListObserver;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -44,28 +39,38 @@ public class DelayDialog extends JDialog {
     }
 
     private void createUI() {
-        setLayout(new FormLayout(
-                "f:p:g,f:p:g,$lcgap,f:p:g,f:p,f:p,f:p:g",
-                "f:p:g,f:p,$lgap,f:p,f:p:g"));
-        CellConstraints cc = new CellConstraints();
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        add(new JLabel("Delay (ms):"), cc.xy(2, 2));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(new JLabel("Delay (ms):"), gbc);
 
         spinnerModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         JSpinner delaySpinner = new JSpinner(spinnerModel);
-        add(delaySpinner, cc.xyw(4, 2, 3));
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(delaySpinner, gbc);
+
+        JPanel controlsPanel = new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(5, 0, 5, 0);
+        add(controlsPanel, gbc);
 
         JButton okButton = new JButton("OK");
-        okButton.addActionListener((ActionEvent e) -> {
-            okButtonPressed();
-        });
-        add(okButton, cc.xy(5, 4));
+        okButton.addActionListener((ActionEvent e) -> okButtonPressed());
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        controlsPanel.add(okButton, gbc);
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener((ActionEvent e) -> {
-            dispose();
-        });
-        add(cancelButton, cc.xy(6, 4));
+        cancelButton.addActionListener((ActionEvent e) -> dispose());
+        gbc.gridx = 1;
+        controlsPanel.add(cancelButton, gbc);
 
         setTitle("Delay");
         setPreferredSize(new Dimension(300, 150));

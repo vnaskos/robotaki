@@ -16,10 +16,10 @@
  */
 package com.vnaskos.robotaki.ui;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import com.vnaskos.robotaki.Robotaki;
 import com.vnaskos.robotaki.handlers.RunHandler;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -30,60 +30,49 @@ import javax.swing.JToggleButton;
  * @author Vasilis Naskos
  */
 public class FileTab extends JPanel {
-    
+
     private final Robotaki robotaki;
-    private JButton saveButton, openButton,
-            startButton, stopButton, aboutButton;
-    private JToggleButton alwaysOnTopByButton;
 
     public FileTab(Robotaki robotaki) {
         this.robotaki = robotaki;
-        
+
         createUI();
     }
-    
+
     private void createUI() {
-        setLayout(new FormLayout(
-                "$lcgap,f:p:g,$lcgap",
-                "[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p],[20dlu,p]"));
-        CellConstraints cc = new CellConstraints();
-        
-        saveButton = new JButton("Save");
-        saveButton.addActionListener((ActionEvent e) -> {
-            robotaki.save();
-        });
-        add(saveButton, cc.xy(2, 1));
-        
-        openButton = new JButton("Open");
-        openButton.addActionListener((ActionEvent e) -> {
-            robotaki.open();
-        });
-        add(openButton, cc.xy(2, 2));
-        
-        startButton = new JButton("Start");
-        startButton.addActionListener((ActionEvent e) -> {
-            robotaki.start();
-        });
-        add(startButton, cc.xy(2, 3));
-        
-        stopButton = new JButton("Stop");
-        stopButton.addActionListener((e) -> {
-            RunHandler.stop();
-        });
-        add(stopButton, cc.xy(2, 4));
-        
-        alwaysOnTopByButton = new JToggleButton("On Top");
-        alwaysOnTopByButton.addActionListener((e) -> {
-            robotaki.toggleAlwaysOnTop();
-        });
-        add(alwaysOnTopByButton, cc.xy(2, 5));
-        
-        aboutButton = new JButton("About");
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener((ActionEvent e) -> robotaki.save());
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTH;
+        add(saveButton, gbc);
+
+        JButton openButton = new JButton("Open");
+        openButton.addActionListener((ActionEvent e) -> robotaki.open());
+        add(openButton, gbc);
+
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener((ActionEvent e) -> robotaki.start());
+        add(startButton, gbc);
+
+        JButton stopButton = new JButton("Stop");
+        stopButton.addActionListener((e) -> RunHandler.stop());
+        add(stopButton, gbc);
+
+        JToggleButton alwaysOnTopByButton = new JToggleButton("On Top");
+        alwaysOnTopByButton.addActionListener((e) -> robotaki.toggleAlwaysOnTop());
+        add(alwaysOnTopByButton, gbc);
+
+        JButton aboutButton = new JButton("About");
         aboutButton.addActionListener((ActionEvent e) -> {
             AboutFrame about = new AboutFrame();
             about.setVisible(true);
         });
-        add(aboutButton, cc.xy(2, 6));
+        add(aboutButton, gbc);
     }
-    
+
 }

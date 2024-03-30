@@ -16,15 +16,8 @@
  */
 package com.vnaskos.robotaki.ui;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 
 /**
  *
@@ -37,21 +30,31 @@ public class AboutFrame extends JFrame {
     }
 
     private void createUI() {
-        setLayout(new FormLayout(
-                "$lcgap,f:p:g,f:p:g,right:p:g,$lcgap",
-                "$lcgap,f:p,10dlu,f:p:g,10dlu,f:p,$lcgap"));
-        CellConstraints cc = new CellConstraints();
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
         JLabel aboutLabel = new JLabel("Robotaki v1.0 by vnaskos");
         aboutLabel.setFont(new java.awt.Font("Ubuntu", Font.PLAIN, 18));
-        add(aboutLabel, cc.xy(2, 2));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(12, 12, 12, 12);
+        add(aboutLabel, gbc);
 
         JTextPane aboutTextPane = getAboutPane();
-        add(new JScrollPane(aboutTextPane), cc.xyw(2, 4, 3));
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridy = 1;
+        gbc.weighty = 1.0;
+        add(new JScrollPane(aboutTextPane), gbc);
 
         JButton okButton = new JButton("OK");
         okButton.addActionListener((e) -> dispose());
-        add(okButton, cc.xy(4, 6));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 2;
+        gbc.weighty = 0.0;
+        add(okButton, gbc);
 
         setTitle("About Robotaki");
         setPreferredSize(new Dimension(500, 350));
